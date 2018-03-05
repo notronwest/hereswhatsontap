@@ -1,4 +1,4 @@
-
+.DS_Store
 ###> symfony/framework-bundle ###
 app/.env
 app/public/bundles/
@@ -20,6 +20,5 @@ app/phpunit.xml
 app/.web-server-pid
 ###< symfony/web-server-bundle ###
 
-.idea
-.idea/*
-/.idea/workspace.xml
+/.idea
+
