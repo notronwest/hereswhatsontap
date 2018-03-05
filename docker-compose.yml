@@ -1,0 +1,31 @@
+version: '2'
+
+volumes:
+  db_data: {}
+
+services:
+
+  db:
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: hereswhatsontap
+      MYSQL_USER: hereswhatsontap
+      MYSQL_PASSWORD: hereswhatsontap!
+    expose:
+      - "3306"
+    image: mysql:5.6
+    ports:
+      - "3321:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+  web:
+    build:
+      context: ./docker/web/
+    image: php
+    links:
+      - "db:database"
+    ports:
+      - "8021:80"
+    volumes:
+      - ./app/:/var/www/symfony
