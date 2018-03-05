@@ -24,6 +24,8 @@
                 <exclude name="build-development.properties" />
                 <exclude name="src"/>
                 <exclude name="src/*"/>
+                <exclude name="docker"/>
+                <exclude name="docker/*"/>
                 <exclude name="gulpfile.js"/>
                 <exclude name="package.json"/>
             </fileset>
