@@ -1,0 +1,39 @@
+<project name="HeresWhatsOnTap" default="dist">
+    <description>
+        Copys files to deployment directory based on parameters
+    </description>
+    <!-- set global properties for this build -->
+    <property environment="env"/>
+    <!-- <property file="build-${env.DEPLOYTO}.properties" /> -->
+    <property file="build-${DeployTo}.properties" />
+
+    <!-- output which properties file we are using -->
+    <echo message="Using ${DeployTo} properties file"/>
+
+    <!-- output which directory we are copying to -->
+    <echo message="Copying files to ${deploy.dir}"/>
+
+    <!-- output which directory we are copying from -->
+    <echo message="Copying files from ${env.WORKSPACE}"/>
+
+    <target name="deploy" description="Copy files to deploy folder.">
+        <copy todir="${deploy.dir}" verbose="true">
+            <fileset dir="${env.WORKSPACE}">
+                <exclude name="build.xml" />
+                <exclude name="build-production.properties" />
+                <exclude name="build-development.properties" />
+                <exclude name="src"/>
+                <exclude name="src/*"/>
+                <exclude name="gulpfile.js"/>
+                <exclude name="package.json"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <!-- // cleanup the workspace directory -->
+    <target name="cleanup" description="Clean up the workspace directory">
+        <delete includeemptydirs="true">
+            <fileset dir="${env.WORKSPACE}"/>
+        </delete>
+    </target>
+</project>
