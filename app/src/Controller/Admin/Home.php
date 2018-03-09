@@ -10,6 +10,8 @@ namespace App\Controller\Admin;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Service\BeerService;
+
 
 class Home extends Controller
 {
@@ -18,6 +20,8 @@ class Home extends Controller
      * @Route("/admin/", name="admin")
      **/
     public function indexAction(){
-        return $this->render('admin/home.html.twig');
+        $BeerDAO = new BeerService;
+        return $this->render('admin/home.html.twig',
+            [ 'beerData' => $BeerDAO->getByName('Long Trail Ale') ]);
     }
 }
