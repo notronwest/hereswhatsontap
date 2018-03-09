@@ -1,4 +1,4 @@
-.DS_Store
+**.DS_Store
 ###> symfony/framework-bundle ###
 app/.env
 app/public/bundles/
@@ -20,5 +20,12 @@ app/phpunit.xml
 app/.web-server-pid
 ###< symfony/web-server-bundle ###
 
-/.idea
+**.idea
 
+**lock.json
+app/**/*.lock
+
+/app/composer.lock
+/.DS_Store
+/app/.DS_Store
+/app/public/.DS_Store
