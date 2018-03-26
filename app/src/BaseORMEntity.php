@@ -8,6 +8,8 @@
 
 namespace App;
 
+use DateTime;
+
 
 class BaseORMEntity
 {
@@ -15,8 +17,10 @@ class BaseORMEntity
 
     public function __construct()
     {
-        $this->addeddate = new \DateTime();
-        $this->modifieddate = new \DateTime();
+        $this->addeddate = new DateTime('now');
+        $this->modifieddate = new DateTime('now');
+        $this->addedby = 'ANON0000000000000000000000000001';
+        $this->modifiedby = 'ANON0000000000000000000000000001';
         $this->active = 1;
     }
 

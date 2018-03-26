@@ -56,18 +56,54 @@ class Startup extends Controller
             ]
         ];
 
+        // add new users
         foreach ($NewUsers as &$thisUser){
             // see if the first user exists
-            $User = $this->getDoctrine()
-                ->getRepository(Beer::class)
-                ->findAll();
-                //->findBy(['username' => $thisUser['username']]);
+            $UserSearch = $this->getDoctrine()
+                ->getRepository(User::class)
+                ->findBy(['username' => $thisUser['username']]);
 
-            if (!$User) {
+
+            if (!$UserSearch) {
                 // build a new user
                 $User = new User();
-                $User->setAddeddate(new \DateTime());
+                $User->setusername($thisUser['username']);
+                $User->setPassword($thisUser['password']);
+                // persist
+                $entityManager->persist($User);
+                $entityManager->flush();
+
+            } else {
+                $User = $UserSearch[0];
             }
+
+            if( $User ){
+                $Contact = $this->getDoctrine()
+                    ->getRepository(Contact::class)
+                    ->findBy([
+                        'user' => $User
+                    ]);
+
+                if( !$Contact ){
+                    // build the new contact
+                    $Contact = new Contact();
+                    $Contact->setFirstname($thisUser['firstName']);
+                    $Contact->setLastName($thisUser['lastName']);
+                    $Contact->setNickname('');
+                    $Contact->setAddress('');
+                    $Contact->setAddress2('');
+                    $Contact->setCity('');
+                    $Contact->setState('');
+                    $Contact->setZip('');
+                    $Contact->setPhone('');
+                    $Contact->setEmail('');
+                    $Contact->setuser($User);
+                    // persist
+                    $entityManager->persist($Contact);
+                    $entityManager->flush();
+                }
+            }
+
         }
 
 

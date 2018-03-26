@@ -49,7 +49,7 @@ class User extends BaseORMEntity
     /**
      * @ORM\Column(type="datetime", name="user_addeddate")
      */
-    protected $addedate;
+    protected $addeddate;
 
     /**
      * @ORM\Column(type="datetime", name="user_modifieddate")
