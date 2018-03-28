@@ -10,7 +10,7 @@ use Doctrine\ORM\Query\Expr\Base;
 
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\CustomeruserRoleTypeRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\CustomerUserRoleTypeRepository")
  * @ORM\Table(name="customer_user_role_type",
  *            uniqueConstraints =
  *            {
@@ -21,7 +21,7 @@ use Doctrine\ORM\Query\Expr\Base;
  *            }
  *     )
  */
-class CustomeruserRoleType extends BaseORMEntity
+class CustomerUserRoleType extends BaseORMEntity
 {
 
 

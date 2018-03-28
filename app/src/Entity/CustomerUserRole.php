@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping\ManyToOne as ManyToOne;
 use Doctrine\ORM\Mapping\JoinColumn as JoinColumn;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\CustomeruserRoleRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\CustomerUserRoleRepository")
  * @ORM\Table(name="customer_user_role",
  *            uniqueConstraints =
  *            {
@@ -21,7 +21,7 @@ use Doctrine\ORM\Mapping\JoinColumn as JoinColumn;
  *            }
  *     )
  */
-class CustomeruserRole extends BaseORMEntity
+class CustomerUserRole extends BaseORMEntity
 {
 
 
@@ -73,7 +73,7 @@ class CustomeruserRole extends BaseORMEntity
      * @ManyToOne(targetEntity="CustomeruserRoleType", cascade={"all"}, fetch="LAZY")
      * @JoinColumn(name="customer_user_role_type_id",referencedColumnName="customer_user_role_type_id")
      */
-    protected $customeruserRoleType;
+    protected $customerUserRoleType;
 
     /**
      * @return mixed
@@ -110,17 +110,17 @@ class CustomeruserRole extends BaseORMEntity
     /**
      * @return mixed
      */
-    public function getCustomeruserRoleType()
+    public function getCustomerUserRoleType()
     {
         return $this->customeruserRoleType;
     }
 
     /**
-     * @param mixed $customeruserRoleType
+     * @param mixed $customerUserRoleType
      */
-    public function setCustomeruserRoleType($customeruserRoleType): void
+    public function setCustomerUserRoleType($customerUserRoleType): void
     {
-        $this->customeruserRoleType = $customeruserRoleType;
+        $this->customerUserRoleType = $customerUserRoleType;
     }
 
 

@@ -27,6 +27,7 @@ class Customer extends BaseORMEntity
     public function __construct()
     {
         $this->startdate = new \DateTime();
+        parent::__construct();
     }
 
     /**

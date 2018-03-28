@@ -28,3 +28,7 @@ services:
     # please note that last definitions always *replace* previous ones
     App\Service\:
           resource: '../src/Service'
+
+    Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler:
+          arguments:
+            - !service { class: PDO, factory: 'database_connection:getWrappedConnection' }

@@ -19,6 +19,7 @@ use App\Entity\CustomerUserRole;
 use App\Entity\CustomerUserRoleType;
 use App\Entity\Location;
 use App\Entity\Beer;
+use Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler;
 
 class Startup extends Controller
 {
@@ -37,9 +38,14 @@ class Startup extends Controller
     /**
      * @Route("/startup", name="startup")
      */
-    public function startup(EntityManagerInterface $entityManager){
+    public function startup(EntityManagerInterface $entityManager, PdoSessionHandler $sessionHandlerService){
 
-        $AllUsers = [];
+        try {
+            $sessionHandlerService->createTable();
+        } catch (\PDOException $exception) {
+            // the table could not be created for some reason
+            dump($exception);
+        }
 
         $NewUsers = [
             [
@@ -55,6 +61,22 @@ class Startup extends Controller
                 'password'=>'password'
             ]
         ];
+
+        // set up customer user role type
+        $CustomerUserRoleSearch = $this->getDoctrine()
+            ->getRepository(CustomerUserRoleType::class)
+            ->findBy([
+                'constant' => 'customer_user_role.type.owner'
+            ]);
+
+        if( !$CustomerUserRoleSearch ) {
+            $CustomerUserRoleType = new CustomerUserRoleType();
+            $CustomerUserRoleType->setConstant('customer_user_role.type.owner');
+            $entityManager->persist($CustomerUserRoleType);
+            $entityManager->flush();
+        } else {
+            $CustomerUserRoleType = $CustomerUserRoleSearch[0];
+        }
 
         // add new users
         foreach ($NewUsers as &$thisUser){
@@ -104,6 +126,49 @@ class Startup extends Controller
                 }
             }
 
+        }
+
+        // add customer
+        $CustomerSearch = $this->getDoctrine()
+            ->getRepository(Customer::class)
+            ->findBy(['name' => 'East Street Ale House']);
+
+        if( !$CustomerSearch ){
+            $Customer = new Customer();
+            $Customer->setName('East Street Ale House');
+            $Customer->setCustomerType('bar');
+            // persist
+            $entityManager->persist($Customer);
+            $entityManager->flush();
+
+        } else {
+            $Customer = $CustomerSearch[0];
+        }
+
+        // assign this customer to sean
+        $Sean = $this->getDoctrine()
+            ->getRepository(User::class)
+            ->findBy([
+                'username' => 'skuusisaari'
+            ]);
+
+        if( $Sean ){
+            $CustomerUserRoleCheck = $this->getDoctrine()
+                ->getRepository(CustomerUserRole::class)
+                ->findBy([
+                    'customer' => $Customer,
+                    'user' => $Sean[0],
+                    'customerUserRoleType' => $CustomerUserRoleType
+                ]);
+
+            if( !$CustomerUserRoleCheck ) {
+                $CustomerUserRole = new CustomerUserRole();
+                $CustomerUserRole->setCustomer($Customer);
+                $CustomerUserRole->setuser($Sean[0]);
+                $CustomerUserRole->setCustomerUserRoleType($CustomerUserRoleType);
+                $entityManager->persist($CustomerUserRole);
+                $entityManager->flush();
+            }
         }
 
 

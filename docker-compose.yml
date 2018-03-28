@@ -9,8 +9,6 @@ services:
       context: ./docker/web/
      ports:
        - "8080:80"
-     expose:
-         - "80"
      restart: always
      volumes:
          - ${SYMFONY_PATH}:/var/www/app
@@ -36,8 +34,6 @@ services:
        MYSQL_PASSWORD: ${SYMFONY_DB_PASS}
      ports:
          - "3307:3306"
-     expose:
-         - "3306"
 
 volumes:
     db_data:

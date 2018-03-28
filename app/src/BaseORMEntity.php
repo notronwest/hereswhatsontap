@@ -17,11 +17,16 @@ class BaseORMEntity
 
     public function __construct()
     {
-        $this->addeddate = new DateTime('now');
-        $this->modifieddate = new DateTime('now');
+        $this->addeddate =  $this->getNow();
+        $this->modifieddate = $this->getNow();
         $this->addedby = 'ANON0000000000000000000000000001';
         $this->modifiedby = 'ANON0000000000000000000000000001';
         $this->active = 1;
+    }
+
+    // probably needs to be moved to a more base class
+    public function getNow(){
+        return new DateTime('now');
     }
 
     /**
