@@ -6,7 +6,8 @@ namespace App\Entity;
 use App\BaseORMEntity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\UniqueConstraint as UniqueConstraint;
-use Doctrine\ORM\Mapping\JoinColumn as JoinColumn;
+use Doctrine\ORM\Mapping\OneToOne as OneToOne;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
@@ -20,9 +21,14 @@ use Doctrine\ORM\Mapping\JoinColumn as JoinColumn;
  *            }
  *     )
  */
-class User extends BaseORMEntity
+class User extends BaseORMEntity implements UserInterface, \Serializable
 {
 
+    public function __construct()
+    {
+        $this->salt = md5(uniqid('', true));
+        parent::__construct();
+    }
 
     /**
      * @ORM\Id
@@ -67,6 +73,11 @@ class User extends BaseORMEntity
     protected $active;
 
     /**
+     * @ORM\Column(type="string", name="user_salt")
+     */
+    protected $salt;
+
+    /**
      * @return mixed
      */
     public function getusername()
@@ -98,5 +109,39 @@ class User extends BaseORMEntity
         $this->password = $password;
     }
 
+    public function getSalt()
+    {
+        return null;
+    }
+
+    public function getRoles()
+    {
+        return array('ROLE_USER', 'ROLE_ADMIN');
+    }
+
+    public function eraseCredentials()
+    {
+
+    }
+
+    public function serialize()
+    {
+        return serialize(array(
+            $this->id,
+            $this->username,
+            $this->password,
+            $this->salt,
+        ));
+    }
+
+    public function unserialize($serialized)
+    {
+        list(
+            $this->id,
+            $this->username,
+            $this->password,
+            $this->salt,
+            ) = unserialize($serialized);
+    }
 
 }

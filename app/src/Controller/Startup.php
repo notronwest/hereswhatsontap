@@ -20,6 +20,7 @@ use App\Entity\CustomerUserRoleType;
 use App\Entity\Location;
 use App\Entity\Beer;
 use Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class Startup extends Controller
 {
@@ -38,13 +39,12 @@ class Startup extends Controller
     /**
      * @Route("/startup", name="startup")
      */
-    public function startup(EntityManagerInterface $entityManager, PdoSessionHandler $sessionHandlerService){
+    public function startup(EntityManagerInterface $entityManager, PdoSessionHandler $sessionHandlerService, UserPasswordEncoderInterface $encoder){
 
         try {
             $sessionHandlerService->createTable();
         } catch (\PDOException $exception) {
             // the table could not be created for some reason
-            dump($exception);
         }
 
         $NewUsers = [
@@ -90,7 +90,8 @@ class Startup extends Controller
                 // build a new user
                 $User = new User();
                 $User->setusername($thisUser['username']);
-                $User->setPassword($thisUser['password']);
+                $encoded = $encoder->encodePassword($User, $thisUser['password']);
+                $User->setPassword($encoded);
                 // persist
                 $entityManager->persist($User);
                 $entityManager->flush();

@@ -17,7 +17,8 @@ class Home extends Controller
     /**
      * @Route("/new")
      */
-    public function indexAction(){
+    public function indexAction()
+    {
         return $this->render("front/home.html.twig");
     }
 
@@ -25,35 +26,41 @@ class Home extends Controller
     /**
      * @Route("/pricing", name="pricing")
      */
-    public function pricingAction(){
+    public function pricingAction()
+    {
         return $this->render("front/pricing.html.twig");
     }
 
     /**
      * @Route("/about", name="about")
      */
-    public function aboutAction(){
+    public function aboutAction()
+    {
         return $this->render("front/about.html.twig");
     }
 
     /**
      * @Route("/contact", name="contact")
      */
-    public function contactAction(){
+    public function contactAction()
+    {
         return $this->render("front/contact.html.twig");
     }
 
     /**
      * @Route("/termsofuse", name="terms-of-use")
      */
-    public function termsofuseAction(){
+    public function termsofuseAction()
+    {
         return $this->render("front/termsofuse.html.twig");
     }
 
     /**
      * @Route("/privacypolicy", name="privacy-policy")
      */
-    public function privacypolicyAction(){
+    public function privacypolicyAction()
+    {
         return $this->render("front/privacypolicy.html.twig");
     }
+
 }
