@@ -32,10 +32,18 @@ class TapRepository extends ServiceEntityRepository
     }
     */
 
-    public function findByCustomer($Customer){
-        return $this->createQueryBuilder('t')
-        ->where('t.customer = :customer')->setParameter('customer', $Customer)
-        ->getQuery()
-        ->getResult();
+    public function getTaps($customer){
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            '  
+                    SELECT  t
+                    FROM    App\Entity\Tap t
+                    WHERE   t.customer = :customer
+                 
+                 '
+        )->setParameter('customer', $customer);
+
+        return $query->getResult();
     }
 }

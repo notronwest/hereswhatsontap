@@ -31,4 +31,21 @@ class UserRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function getCustomer(User $user)
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            '  
+                    SELECT cur
+                    FROM    App\Entity\User u
+                    JOIN    App\Entity\CustomerUserRole cur
+                    WHERE   u = :user
+                 
+                 '
+        )->setParameter('user', $user);
+
+        return $query->getResult();
+    }
 }

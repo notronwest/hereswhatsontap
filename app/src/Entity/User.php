@@ -78,6 +78,13 @@ class User extends BaseORMEntity implements UserInterface, \Serializable
     protected $salt;
 
     /**
+     * @ORM\OneToOne(targetEntity="Contact")
+     * @ORM\JoinColumn(name="contact_id", referencedColumnName="contact_id")
+     */
+    protected $contact;
+
+
+    /**
      * @return mixed
      */
     public function getusername()
@@ -144,4 +151,9 @@ class User extends BaseORMEntity implements UserInterface, \Serializable
             ) = unserialize($serialized);
     }
 
+
+    public function getCustomer()
+    {
+        
+    }
 }

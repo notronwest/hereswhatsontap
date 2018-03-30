@@ -1,5 +1,15 @@
 {% extends '@App/admin/admin.html.twig' %}
 
+{% block breadcrumbs %}
+    <ul class="breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a href="#">Home</a>
+        </li>
+        <li class="active"><a href="{{ path('taps') }}">Taps</a></li>
+    </ul>
+{% endblock %}
+
 {% block body %}
 {{ dump(taps) }}
     <a href="{{ path('editTap') }}" class="btn btn-sm btn-primary pull-right">Add Tap</a>
