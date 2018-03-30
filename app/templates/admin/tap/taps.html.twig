@@ -1,0 +1,22 @@
+{% extends '@App/admin/admin.html.twig' %}
+
+{% block body %}
+{{ dump(taps) }}
+    <a href="{{ path('editTap') }}" class="btn btn-sm btn-primary pull-right">Add Tap</a>
+    <table class="table table-hover">
+        <thead>
+            <th>Name</th>
+            <th>Created By</th>
+            <th>Date Created</th>
+        </thead>
+        <tbody>
+            {% for tap in taps %}
+                <tr>
+                    <td>{{ tap.getName() }}</td>
+                    <td>{{ tap.getAddedBy() }}</td>
+                    <td>{{ tap.getAddedDate() }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
