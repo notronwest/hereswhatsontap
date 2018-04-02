@@ -53,6 +53,11 @@ class User extends BaseORMEntity implements UserInterface, \Serializable
     protected $addedby;
 
     /**
+     * @ORM\Column(type="string", name="user_addedbyname", length=255)
+     */
+    protected $addedbyname;
+
+    /**
      * @ORM\Column(type="datetime", name="user_addeddate")
      */
     protected $addeddate;
@@ -66,6 +71,11 @@ class User extends BaseORMEntity implements UserInterface, \Serializable
      * @ORM\Column(type="string", name="user_modifiedby", length=36)
      */
     protected $modifiedby;
+
+    /**
+     * @ORM\Column(type="string", name="user_modifiedbyname", length=255)
+     */
+    protected $modifiedbyname;
 
     /**
      * @ORM\Column(type="boolean", name="user_active")
@@ -149,11 +159,5 @@ class User extends BaseORMEntity implements UserInterface, \Serializable
             $this->password,
             $this->salt,
             ) = unserialize($serialized);
-    }
-
-
-    public function getCustomer()
-    {
-        
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+
 use App\Entity\Tap;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
@@ -32,17 +33,19 @@ class TapRepository extends ServiceEntityRepository
     }
     */
 
-    public function getTaps($customer){
+    public function findByLocation($location){
         $entityManager = $this->getEntityManager();
 
         $query = $entityManager->createQuery(
             '  
                     SELECT  t
                     FROM    App\Entity\Tap t
-                    WHERE   t.customer = :customer
+                    JOIN    App\Entity\Customer c
+                    JOIN    App\Entity\Location l
+                    WHERE   l = :location
                  
                  '
-        )->setParameter('customer', $customer);
+        )->setParameter('location', $location);
 
         return $query->getResult();
     }

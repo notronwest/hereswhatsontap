@@ -44,42 +44,42 @@ class Contact extends BaseORMEntity
     protected $lastname;
 
     /**
-     * @ORM\Column(type="string", name="contact_nickname", length=255)
+     * @ORM\Column(type="string", name="contact_nickname", length=255, nullable=true)
      */
     protected $nickname;
 
     /**
-     * @ORM\Column(type="integer", name="contact_phone", length=10)
+     * @ORM\Column(type="string", name="contact_phone", length=10, nullable=true)
      */
     protected $phone;
 
     /**
-     * @ORM\Column(type="string", name="contact_email", length=255)
+     * @ORM\Column(type="string", name="contact_email", length=255, nullable=true)
      */
     protected $email;
 
     /**
-     * @ORM\Column(type="string", name="contact_address", length=1000)
+     * @ORM\Column(type="string", name="contact_address", length=1000, nullable=true)
      */
     protected $address;
 
     /**
-     * @ORM\Column(type="string", name="contact_address2", length=1000 )
+     * @ORM\Column(type="string", name="contact_address2", length=1000, nullable=true)
      */
     protected $address2;
 
     /**
-     * @ORM\Column(type="string", name="contact_city", length=255)
+     * @ORM\Column(type="string", name="contact_city", length=255, nullable=true)
      */
     protected $city;
 
     /**
-     * @ORM\Column(type="string", name="contact_state", length=36)
+     * @ORM\Column(type="string", name="contact_state", length=36, nullable=true)
      */
     protected $state;
 
     /**
-     * @ORM\Column(type="integer", name="contact_zip", length=10)
+     * @ORM\Column(type="string", name="contact_zip", length=9, nullable=true)
      */
     protected $zip;
 
@@ -87,6 +87,11 @@ class Contact extends BaseORMEntity
      * @ORM\Column(type="string", name="contact_addedby", length=36)
      */
     protected $addedby;
+
+    /**
+     * @ORM\Column(type="string", name="contact_addedbyname", length=255)
+     */
+    protected $addedbyname;
 
     /**
      * @ORM\Column(type="datetime", name="contact_addeddate")
@@ -97,6 +102,11 @@ class Contact extends BaseORMEntity
      * @ORM\Column(type="string", name="contact_modifiedby", length=36)
      */
     protected $modifiedby;
+
+    /**
+     * @ORM\Column(type="string", name="contact_modifiedbyname", length=255)
+     */
+    protected $modifiedbyname;
 
     /**
      * @ORM\Column(type="datetime", name="contact_modifieddate")
@@ -290,5 +300,10 @@ class Contact extends BaseORMEntity
         $this->user = $user;
     }
 
+
+    public function getFullName()
+    {
+        return $this->getFirstname().' '.$this->getLastname();
+    }
 
 }

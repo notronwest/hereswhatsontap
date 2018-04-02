@@ -37,62 +37,62 @@ class Style extends BaseORMEntity
     protected $name;
 
     /**
-     * @ORM\Column(type="string", name="style_description", length=2000)
+     * @ORM\Column(type="string", name="style_description", length=2000, nullable=true)
      */
     protected $description;
 
     /**
-     * @ORM\Column(type="string", name="style_category", length=500)
+     * @ORM\Column(type="string", name="style_category", length=500, nullable=true)
      */
     protected $category;
 
     /**
-     * @ORM\Column(type="integer", name="style_ibumin")
+     * @ORM\Column(type="integer", name="style_ibumin", nullable=true)
      */
     protected $ibumin;
 
     /**
-     * @ORM\Column(type="integer", name="style_ibumax")
+     * @ORM\Column(type="integer", name="style_ibumax", nullable=true)
      */
     protected $ibumax;
 
     /**
-     * @ORM\Column(type="integer", name="style_abvmin")
+     * @ORM\Column(type="integer", name="style_abvmin", nullable=true)
      */
     protected $abvmin;
 
     /**
-     * @ORM\Column(type="integer", name="style_abvmax")
+     * @ORM\Column(type="integer", name="style_abvmax", nullable=true)
      */
     protected $abvmax;
 
     /**
-     * @ORM\Column(type="integer", name="style_srmmin")
+     * @ORM\Column(type="integer", name="style_srmmin", nullable=true)
      */
     protected $srmmin;
 
     /**
-     * @ORM\Column(type="integer", name="style_srmmax")
+     * @ORM\Column(type="integer", name="style_srmmax", nullable=true)
      */
     protected $srmmax;
 
     /**
-     * @ORM\Column(type="integer", name="style_ogmin")
+     * @ORM\Column(type="integer", name="style_ogmin", nullable=true)
      */
     protected $ogmin;
 
     /**
-     * @ORM\Column(type="integer", name="style_ogmax")
+     * @ORM\Column(type="integer", name="style_ogmax", nullable=true)
      */
     protected $ogmax;
 
     /**
-     * @ORM\Column(type="integer", name="style_fgmin")
+     * @ORM\Column(type="integer", name="style_fgmin", nullable=true)
      */
     protected $fgmin;
 
     /**
-     * @ORM\Column(type="integer", name="style_fgmax")
+     * @ORM\Column(type="integer", name="style_fgmax", nullable=true)
      */
     protected $fgmax;
 
@@ -100,6 +100,11 @@ class Style extends BaseORMEntity
      * @ORM\Column(type="string", name="style_addedby", length=36)
      */
     protected $addedby;
+
+    /**
+     * @ORM\Column(type="string", name="style_addedbyname", length=255)
+     */
+    protected $addedbyname;
 
     /**
      * @ORM\Column(type="datetime", name="style_addeddate")
@@ -112,6 +117,11 @@ class Style extends BaseORMEntity
     protected $modifiedby;
 
     /**
+     * @ORM\Column(type="string", name="style_modifiedbyname", length=255)
+     */
+    protected $modifiedbyname;
+
+    /**
      * @ORM\Column(type="datetime", name="style_modifieddate")
      */
     protected $modifieddate;
@@ -122,7 +132,7 @@ class Style extends BaseORMEntity
     protected $active;
 
     /**
-     * @ORM\Column(type="string", name="style_apiid", length=255)
+     * @ORM\Column(type="string", name="style_apiid", length=255, nullable=true)
      */
     protected $APIID;
 

@@ -38,32 +38,32 @@ class Location extends BaseORMEntity
     protected $name;
 
     /**
-     * @ORM\Column(type="string", name="location_address", length=1000)
+     * @ORM\Column(type="string", name="location_address", length=1000, nullable=true)
      */
     protected $address;
 
     /**
-     * @ORM\Column(type="string", name="location_address2", length=1000)
+     * @ORM\Column(type="string", name="location_address2", length=1000, nullable=true)
      */
     protected $address2;
 
     /**
-     * @ORM\Column(type="string", name="location_city", length=255)
+     * @ORM\Column(type="string", name="location_city", length=255, nullable=true)
      */
     protected $city;
 
     /**
-     * @ORM\Column(type="string", name="location_state", length=255)
+     * @ORM\Column(type="string", name="location_state", length=255, nullable=true)
      */
     protected $state;
 
     /**
-     * @ORM\Column(type="integer", name="location_zip", length=10)
+     * @ORM\Column(type="string", name="location_zip", length=9, nullable=true)
      */
     protected $zip;
 
     /**
-     * @ORM\Column(type="integer", name="location_phone", length=10)
+     * @ORM\Column(type="string", name="location_phone", length=10, nullable=true)
      */
     protected $phone;
 
@@ -78,6 +78,11 @@ class Location extends BaseORMEntity
     protected $addedby;
 
     /**
+     * @ORM\Column(type="string", name="location_addedbyname", length=255)
+     */
+    protected $addedbyname;
+
+    /**
      * @ORM\Column(type="datetime", name="location_modifieddate")
      */
     protected $modifieddate;
@@ -86,6 +91,11 @@ class Location extends BaseORMEntity
      * @ORM\Column(type="string", name="location_modifedby", length=36)
      */
     protected $modifiedby;
+
+    /**
+     * @ORM\Column(type="string", name="location_modifedbyname", length=255)
+     */
+    protected $modifiedbyname;
 
     /**
      * @ORM\Column(type="boolean", name="location_active")
@@ -207,7 +217,7 @@ class Location extends BaseORMEntity
      */
     public function setPhone($phone): void
     {
-        $this->phone = $phone;
+        $this->phone = preg_replace('/[^0-9]/', '', $phone);
     }
 
     /**

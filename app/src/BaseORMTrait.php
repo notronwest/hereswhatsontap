@@ -12,13 +12,19 @@ namespace App;
 trait BaseORMTrait
 {
 
+    protected $id;
+
     protected $addedby;
+
+    protected $addedbyname;
 
     protected $addeddate;
 
     protected $modifieddate;
 
     protected $modifiedby;
+
+    protected $modifiedbyname;
 
     protected $active;
 

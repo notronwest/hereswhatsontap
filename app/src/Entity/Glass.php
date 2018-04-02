@@ -37,7 +37,7 @@ class Glass extends BaseORMEntity
     protected $name;
 
     /**
-     * @ORM\Column(type="string", name="glass_imgurl", length=500)
+     * @ORM\Column(type="string", name="glass_imgurl", length=500, nullable=true)
      */
     protected $imgURL;
 
@@ -45,6 +45,11 @@ class Glass extends BaseORMEntity
      * @ORM\Column(type="string", name="glass_addedby", length=36)
      */
     protected $addedby;
+
+    /**
+     * @ORM\Column(type="string", name="glass_addedbyname", length=255)
+     */
+    protected $addedbyname;
 
     /**
      * @ORM\Column(type="datetime", name="glass_addeddate")
@@ -57,6 +62,11 @@ class Glass extends BaseORMEntity
     protected $modifiedby;
 
     /**
+     * @ORM\Column(type="string", name="glass_modifiedbyname", length=255)
+     */
+    protected $modifiedbyname;
+
+    /**
      * @ORM\Column(type="datetime", name="glass_modifieddate")
      */
     protected $modifieddate;
@@ -67,7 +77,7 @@ class Glass extends BaseORMEntity
     protected $active;
 
     /**
-     * @ORM\Column(type="string", name="glass_apiid", length=255)
+     * @ORM\Column(type="string", name="glass_apiid", length=255, nullable=true)
      */
     protected $APIID;
 

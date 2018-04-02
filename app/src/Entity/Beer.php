@@ -39,29 +39,24 @@ class Beer
     protected $name;
 
     /**
-     * @ORM\Column(type="integer", name="beer_abv", length=10)
+     * @ORM\Column(type="integer", name="beer_abv", length=10, nullable=true)
      */
     protected $abv;
 
     /**
-     * @ORM\Column(type="integer", name="beer_ibu", length=10)
+     * @ORM\Column(type="integer", name="beer_ibu", length=10, nullable=true)
      */
     protected $ibu;
 
     /**
-     * @ORM\Column(type="boolean", name="beer_organic")
+     * @ORM\Column(type="boolean", name="beer_organic", nullable=true)
      */
     protected $organic;
 
     /**
-     * @ORM\Column(type="string", name="beer_year", length=4)
+     * @ORM\Column(type="string", name="beer_year", length=4, nullable=true)
      */
     protected $year;
-
-    /**
-     * @ORM\Column(type="float", name="beer_price")
-     */
-    protected $price;
 
     /**
      * @ORM\Column(type="datetime", name="beer_addeddate")
@@ -74,6 +69,11 @@ class Beer
     protected $addedby;
 
     /**
+     * @ORM\Column(type="string", name="beer_addedbyname", length=255)
+     */
+    protected $addedbyname;
+
+    /**
      * @ORM\Column(type="datetime", name="beer_modifieddate")
      */
     protected $modifieddate;
@@ -82,6 +82,12 @@ class Beer
      * @ORM\Column(type="string", name="beer_modifiedby", length=36)
      */
     protected $modifiedby;
+
+    /**
+     * @ORM\Column(type="string", name="beer_modifiedbyname", length=255)
+     */
+    protected $modifiedbyname;
+
 
     /**
      * @ORM\Column(type="boolean", name="beer_active")
@@ -101,7 +107,7 @@ class Beer
     protected $glass;
 
     /**
-     * @ORM\Column(type="string", name="beer_apiid", length=255)
+     * @ORM\Column(type="string", name="beer_apiid", length=255, nullable=true)
      */
     protected $APIID;
 

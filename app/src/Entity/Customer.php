@@ -58,6 +58,11 @@ class Customer extends BaseORMEntity
     protected $addedby;
 
     /**
+     * @ORM\Column(type="string", name="customer_addedbyname", length=255)
+     */
+    protected $addedbyname;
+
+    /**
      * @ORM\Column(type="datetime", name="customer_modifieddate")
      */
     protected $modifieddate;
@@ -66,6 +71,11 @@ class Customer extends BaseORMEntity
      * @ORM\Column(type="string", name="customer_modifiedby", length=36)
      */
     protected $modifiedby;
+
+    /**
+     * @ORM\Column(type="string", name="customer_modifiedbyname", length=255)
+     */
+    protected $modifiedbyname;
 
     /**
      * @ORM\Column(type="boolean", name="customer_active")

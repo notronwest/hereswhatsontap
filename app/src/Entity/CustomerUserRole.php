@@ -43,6 +43,11 @@ class CustomerUserRole extends BaseORMEntity
     protected $addedby;
 
     /**
+     * @ORM\Column(type="string", name="customer_user_role_addedbyname", length=255)
+     */
+    protected $addedbyname;
+
+    /**
      * @ORM\Column(type="datetime", name="customer_user_role_modifieddate")
      */
     protected $modifieddate;
@@ -51,6 +56,11 @@ class CustomerUserRole extends BaseORMEntity
      * @ORM\Column(type="string", name="customer_user_role_modifiedby", length=36)
      */
     protected $modifiedby;
+
+    /**
+     * @ORM\Column(type="string", name="customer_user_role_modifiedbyname", length=255)
+     */
+    protected $modifiedbyname;
 
     /**
      * @ORM\Column(type="boolean", name="customer_user_role_active")

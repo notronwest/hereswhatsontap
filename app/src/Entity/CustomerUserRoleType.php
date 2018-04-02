@@ -48,9 +48,19 @@ class CustomerUserRoleType extends BaseORMEntity
     protected $addedby;
 
     /**
+     * @ORM\Column(type="string", name="customer_user_role_type_addedbyname", length=255)
+     */
+    protected $addedbyname;
+
+    /**
      * @ORM\Column(type="string", name="customer_user_role_type_modifiedby", length=36)
      */
     protected $modifiedby;
+
+    /**
+     * @ORM\Column(type="string", name="customer_user_role_type_modifiedbyname", length=255)
+     */
+    protected $modifiedbyname;
 
     /**
      * @ORM\Column(type="datetime", name="customer_user_role_type_modifieddate")

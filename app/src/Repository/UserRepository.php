@@ -38,9 +38,10 @@ class UserRepository extends ServiceEntityRepository
 
         $query = $entityManager->createQuery(
             '  
-                    SELECT cur
+                    SELECT c
                     FROM    App\Entity\User u
                     JOIN    App\Entity\CustomerUserRole cur
+                    JOIN    App\Entity\Customer c
                     WHERE   u = :user
                  
                  '

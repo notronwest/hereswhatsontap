@@ -40,7 +40,7 @@ class Customer extends Controller
      * @Route("/admin/customer/taps", name="customer_taps");
      */
     public function tapsAction(){
-        return $this->render("admin/customer/taps.html.twig");
+        return $this->render("admin/customer/list.html.twig");
     }
 
     /**

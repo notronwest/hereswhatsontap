@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping\ManyToOne as ManyToOne;
 use Doctrine\ORM\Mapping\JoinColumn as JoinColumn;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\TapRepository")
+ * @ORM\Entity(repositoryClass="App\BaseRepository")
  * @ORM\Table(name="tap")
  */
 class Tap extends BaseORMEntity
@@ -39,6 +39,11 @@ class Tap extends BaseORMEntity
     protected $addedby;
 
     /**
+     * @ORM\Column(type="string", name="tap_addedbyname", length=255)
+     */
+    protected $addedbyname;
+
+    /**
      * @ORM\Column(type="datetime", name="tap_modifieddate")
      */
     protected $modifieddate;
@@ -47,6 +52,11 @@ class Tap extends BaseORMEntity
      * @ORM\Column(type="string", name="tap_modifiedby", length=36)
      */
     protected $modifiedby;
+
+    /**
+     * @ORM\Column(type="string", name="tap_modifiedbyname", length=255)
+     */
+    protected $modifiedbyname;
 
     /**
      * @ORM\Column(type="boolean", name="tap_active")

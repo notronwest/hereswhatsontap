@@ -1,0 +1,41 @@
+{% extends '@App/admin/admin.html.twig' %}
+
+{% block page_header %}
+    Locations
+{% endblock %}
+
+{% block breadcrumbs %}
+    <ul class="breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a href="#">Home</a>
+        </li>
+        <li class="active"><a href="{{ path('locations') }}">Locations</a></li>
+    </ul>
+{% endblock %}
+
+{% block body %}
+    <a href="{{ path('editLocation') }}" class="btn btn-sm btn-primary pull-right">Add Location</a>
+    <table class="table table-hover">
+        <thead>
+            <th>Name</th>
+            <th>Created By</th>
+            <th>Date Created</th>
+            <th>Last Modified By</th>
+            <th>Modified By</th>
+            <th></th>
+        </thead>
+        <tbody>
+            {% for location in locations %}
+                <tr>
+                    <td>{{ location.getName() }}</td>
+                    <td>{{ location.getAddedByName() }}</td>
+                    <td>{{ location.getAddedDate()|date('Y-m-d') }}</td>
+                    <td>{{ location.getModifiedByName() }}</td>
+                    <td>{{ location.getModifiedDate()|date('Y-m-d') }}</td>
+                    <td><a href="{{ path('editLocation', { 'location_id': location.iD}) }}" class="btn btn-sm btn-default">Edit</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

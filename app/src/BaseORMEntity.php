@@ -17,16 +17,17 @@ class BaseORMEntity
 
     public function __construct()
     {
-        $this->addeddate =  $this->getNow();
-        $this->modifieddate = $this->getNow();
-        $this->addedby = 'ANON0000000000000000000000000001';
-        $this->modifiedby = 'ANON0000000000000000000000000001';
         $this->active = 1;
     }
 
     // probably needs to be moved to a more base class
     public function getNow(){
         return new DateTime('now');
+    }
+
+    public function getID()
+    {
+        return $this->id;
     }
 
     /**
@@ -43,6 +44,22 @@ class BaseORMEntity
     public function setAddedby($addedby): void
     {
         $this->addedby = $addedby;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAddedbyname()
+    {
+        return $this->addedbyname;
+    }
+
+    /**
+     * @param mixed $addedbyname
+     */
+    public function setAddedbyname($addedbyname): void
+    {
+        $this->addedbyname = $addedbyname;
     }
 
     /**
@@ -91,6 +108,22 @@ class BaseORMEntity
     public function setModifiedby($modifiedby): void
     {
         $this->modifiedby = $modifiedby;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getModifiedbyName()
+    {
+        return $this->modifiedbyname;
+    }
+
+    /**
+     * @param mixed $modifiedbyname
+     */
+    public function setModifiedbyname($modifiedbyname): void
+    {
+        $this->modifiedbyname = $modifiedbyname;
     }
 
     /**

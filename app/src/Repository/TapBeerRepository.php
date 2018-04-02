@@ -2,21 +2,21 @@
 
 namespace App\Repository;
 
-use App\Entity\BeerListBeer;
+use App\Entity\TapBeer;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
- * @method BeerListBeer|null find($id, $lockMode = null, $lockVersion = null)
- * @method BeerListBeer|null findOneBy(array $criteria, array $orderBy = null)
- * @method BeerListBeer[]    findAll()
- * @method BeerListBeer[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method TapBeer|null find($id, $lockMode = null, $lockVersion = null)
+ * @method TapBeer|null findOneBy(array $criteria, array $orderBy = null)
+ * @method TapBeer[]    findAll()
+ * @method TapBeer[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class BeerListBeerRepository extends ServiceEntityRepository
+class TapBeerRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
     {
-        parent::__construct($registry, BeerListBeer::class);
+        parent::__construct($registry, TapBeer::class);
     }
 
     /*
