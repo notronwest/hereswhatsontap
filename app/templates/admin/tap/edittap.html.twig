@@ -1,19 +1,21 @@
 {% extends '@App/admin/tap/list.html.twig' %}
 
 {% block body %}
-    <form class="form-horizontal" role="form" action="{{ path('saveTap') }}" method="post">
-        <div class="form-group">
-            <label for="tap_name" class="col-sm-2 control-label no-padding-right">Name</label>
-            <div class="col-sm-5">
-                <input type="text" class="form-control" id="tap_name" name="tap_name" value="{{ tap.getName() }}"/>
+<div class="widget">
+    <div class="widget-body">
+        <form role="form" action="{{ path('saveTap') }}" method="post">
+            <div class="form-group">
+                <input type="text" class="form-control" id="tap_name" name="tap_name" value="{{ tap.getName() }}" placeholder="Name"/>
             </div>
-        </div>
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" name="save" class="btn btn-default">Save</button>
-                <button type="submit" name="add_beers" class="btn btn-default">Add Beers</button>
+            <div class="row">
+                <div class="col-sm-offset-2 col-sm-10 text-right">
+                    <button type="submit" name="save" value="true" class="btn btn-default">Save</button>
+                    <button type="submit" name="add_beers" value="true" class="btn btn-primary">Save and Manage Beers</button>
+                </div>
             </div>
-        </div>
-        <input type="hidden" name="tap_id" value="{{ tap.id }}"/>
-    </form>
+            <input type="hidden" name="tap_id" value="{{ tap.id }}"/>
+            <input type="hidden" name="location_id" value="{{ location.id }}" />
+        </form>
+    </div>
+</div>
 {% endblock %}

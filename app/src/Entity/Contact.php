@@ -24,8 +24,6 @@ use Doctrine\ORM\Mapping\JoinColumn as JoinColumn;
  */
 class Contact extends BaseORMEntity
 {
-
-
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="UUID")
@@ -119,7 +117,7 @@ class Contact extends BaseORMEntity
     protected $active;
 
     /**
-     * @ManyToOne(targetEntity="user", cascade={"all"}, fetch="LAZY")
+     * @ManyToOne(targetEntity="user", fetch="LAZY")
      * @JoinColumn(name="user_id",referencedColumnName="user_id")
      */
     protected $user;

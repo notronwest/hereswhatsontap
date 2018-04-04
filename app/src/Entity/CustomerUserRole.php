@@ -68,19 +68,19 @@ class CustomerUserRole extends BaseORMEntity
     protected $active;
 
     /**
-     * @ManyToOne(targetEntity="user", cascade={"all"}, fetch="LAZY")
+     * @ManyToOne(targetEntity="user", fetch="LAZY")
      * @JoinColumn(name="user_id",referencedColumnName="user_id")
      */
     protected $user;
 
     /**
-     * @ManyToOne(targetEntity="Customer", cascade={"all"}, fetch="LAZY")
+     * @ManyToOne(targetEntity="Customer", fetch="LAZY")
      * @JoinColumn(name="customer_id",referencedColumnName="customer_id")
      */
     protected $customer;
 
     /**
-     * @ManyToOne(targetEntity="CustomerUserRoleType", cascade={"all"}, fetch="LAZY")
+     * @ManyToOne(targetEntity="CustomerUserRoleType", fetch="LAZY")
      * @JoinColumn(name="customer_user_role_type_id",referencedColumnName="customer_user_role_type_id")
      */
     protected $customerUserRoleType;

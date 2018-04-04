@@ -95,13 +95,13 @@ class Beer
     protected $active;
 
     /**
-     * @ManyToOne(targetEntity="Style", cascade={"all"}, fetch="LAZY")
+     * @ManyToOne(targetEntity="Style", fetch="LAZY")
      * @JoinColumn(name="style_id",referencedColumnName="style_id")
      */
     protected $style;
 
     /**
-     * @ManyToOne(targetEntity="Glass", cascade={"all"}, fetch="LAZY")
+     * @ManyToOne(targetEntity="Glass", fetch="LAZY")
      * @JoinColumn(name="glass_id",referencedColumnName="glass_id")
      */
     protected $glass;

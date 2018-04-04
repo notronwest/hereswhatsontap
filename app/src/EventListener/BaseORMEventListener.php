@@ -30,7 +30,7 @@ class BaseORMEventListener
         $this->updateStamps($lifecycleEventArgs);
     }
 
-    public function postUpdate(LifecycleEventArgs $lifecycleEventArgs){
+    public function preUpdate(LifecycleEventArgs $lifecycleEventArgs){
         $this->updateStamps($lifecycleEventArgs);
     }
 

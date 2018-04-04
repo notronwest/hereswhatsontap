@@ -9,14 +9,15 @@
 namespace App\Controller\Admin;
 
 use App\BaseController;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Tap as TapEntity;
 
 
 class Tap extends BaseController
 {
-
     /**
      * @Route("/admin/taps", name="taps")
      */
@@ -25,10 +26,10 @@ class Tap extends BaseController
 
         $Taps = $this->getDoctrine()
             ->getRepository(TapEntity::class)
-            ->findBy(['customer'=>$this->getCurrentCustomer()]);
+            ->findBy(['location' => $this->getCurrentLocation()]);
 
-        return $this->render("list.html.twig",
-            ['taps' => $Taps]);
+        return $this->render("@App/admin/tap/list.html.twig",
+            ['taps' => $Taps, 'currentLocation' => $this->getCurrentLocation()]);
 
     }
 
@@ -40,18 +41,10 @@ class Tap extends BaseController
 
         // if we have a valid tap id passed in then try and get the results
 
-        $tap = $this->getDoctrine()
-            ->getRepository(TapEntity::class)
-            ->find($tap_id);
-
-        if($tap){
-            $tap = $tap[0];
-        } else {
-            $tap = new TapEntity();
-        }
+        $tap = $this->getTap($tap_id);
 
         return $this->render("@App/admin/tap/edittap.html.twig",
-            ['tap' => $tap]);
+            ['tap' => $tap, 'location' => $this->getCurrentLocation()]);
 
     }
 
@@ -60,30 +53,46 @@ class Tap extends BaseController
      */
     public function saveTap(Request $request)
     {
-        $tap_id = $request->request->get('tap_id');
-
         $entityManager = $this->getDoctrine()->getManager();
-        try{
-            // do all of the saving and
-            $tap = $this->getDoctrine()
-                ->getRepository(TapEntity::class)
-                ->find($tap_id);
+
+        // get the location
+        $location = $entityManager->getRepository(\App\Entity\Location::class)
+            ->find($request->request->get('location_id'));
+
+        try {
+            $tap = $this->getTap($request->request->get('tap_id'));
             $tap->setName($request->request->get('tap_name'));
-            $tap->setCustomer($this->getCurrentCustomer());
+            $tap->setLocation($location);
+
+            $entityManager->persist($location);
             $entityManager->persist($tap);
             $entityManager->flush();
 
-        } catch ( \Exception $exception ){
+        } catch (\Exception $exception) {
             throw $exception;
         }
 
-
         // send them back to the listing
-        if( $request->request->get('save') ){
-            return $this->listTaps();
+        if ($request->request->get('save')) {
+            return $this->redirect($this->generateUrl( 'taps'));
         } else {
             return $this->editBeers();
         }
+    }
+
+    /**
+     * @Route("/admin/tap/deleteConfirm/{tap_id}", name="deleteTapConfirm")
+     */
+    public function deleteTapConfirm($tap_id)
+    {
+
+        $tap = $this->getTap($tap_id);
+
+        // TODO: Need error handling if the tapid isn't found
+
+        return $this->render('@App/admin/tap/delete.html.twig',[
+            'tap' => $tap
+        ]);
     }
 
     /**
@@ -100,5 +109,19 @@ class Tap extends BaseController
     public function saveBeers(Request $request)
     {
         return $this->index();
+    }
+
+    public function getTap($tap_id)
+    {
+
+        $tap = $this->getDoctrine()
+            ->getRepository(TapEntity::class)
+            ->find($tap_id);
+
+        if($tap){
+            return $tap[0];
+        } else {
+            return new TapEntity();
+        }
     }
 }

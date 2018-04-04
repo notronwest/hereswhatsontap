@@ -14,8 +14,6 @@ use Doctrine\ORM\Mapping\JoinColumn as JoinColumn;
  */
 class Tap extends BaseORMEntity
 {
-
-
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="UUID")
@@ -64,14 +62,8 @@ class Tap extends BaseORMEntity
     protected $active;
 
     /**
-     * @ManyToOne(targetEntity="Customer", cascade={"all"}, fetch="LAZY")
-     * @JoinColumn(name="customer_id",referencedColumnName="customer_id")
-     */
-    protected $customer;
-
-    /**
-     * @ManyToOne(targetEntity="Location", cascade={"all"}, fetch="LAZY")
-     * @JoinColumn(name="location_id",referencedColumnName="location_id")
+     * @ORM\ManyToOne(targetEntity="Location", inversedBy="taps", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="location_id", referencedColumnName="location_id", nullable=true)
      */
     protected $location;
 
@@ -116,9 +108,9 @@ class Tap extends BaseORMEntity
     }
 
     /**
-     * @param mixed $location
+     * @param Location $location
      */
-    public function setLocation($location): void
+    public function setLocation(Location $location)
     {
         $this->location = $location;
     }

@@ -4,6 +4,7 @@ namespace App\Entity;
 
 
 use App\BaseORMEntity;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\UniqueConstraint as UniqueConstraint;
 
@@ -22,12 +23,11 @@ use Doctrine\ORM\Mapping\UniqueConstraint as UniqueConstraint;
  */
 class Customer extends BaseORMEntity
 {
-
-
     public function __construct()
     {
-        $this->startdate = new \DateTime();
         parent::__construct();
+        $this->locations = new ArrayCollection();
+        $this->startdate = new \DateTime();
     }
 
     /**
@@ -88,6 +88,11 @@ class Customer extends BaseORMEntity
     protected $customerType;
 
     /**
+     * @ORM\OneToMany(targetEntity="Location", mappedBy="customer")
+     */
+    protected $locations;
+
+    /**
      * @return mixed
      */
     public function getName()
@@ -133,6 +138,28 @@ class Customer extends BaseORMEntity
     public function setCustomerType($customerType): void
     {
         $this->customerType = $customerType;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getLocations()
+    {
+        return $this->locations;
+    }
+
+    /**
+     * @param Location $location
+     */
+    public function addLocation($location)
+    {
+        if( !$this->locations ){
+            $this->locations = new ArrayCollection();
+        }
+
+        if( !$this->locations->contains($location) ){
+            $this->locations->add($location);
+        }
     }
 
 

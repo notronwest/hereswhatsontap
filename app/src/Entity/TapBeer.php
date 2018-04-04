@@ -72,19 +72,19 @@ class TapBeer extends BaseORMEntity
     protected $active;
 
     /**
-     * @ManyToOne(targetEntity="Glass", cascade={"all"}, fetch="LAZY")
+     * @ManyToOne(targetEntity="Glass", fetch="LAZY")
      * @JoinColumn(name="glass_id",referencedColumnName="glass_id")
      */
     protected $glass;
 
     /**
-     * @ManyToOne(targetEntity="Beer", cascade={"all"}, fetch="LAZY")
+     * @ManyToOne(targetEntity="Beer", fetch="LAZY")
      * @JoinColumn(name="beer_id",referencedColumnName="beer_id")
      */
     protected $beer;
 
     /**
-     * @ManyToOne(targetEntity="Tap", cascade={"all"}, fetch="LAZY")
+     * @ManyToOne(targetEntity="Tap", fetch="LAZY")
      * @JoinColumn(name="tap_id",referencedColumnName="tap_id")
      */
     protected $tap;

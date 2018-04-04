@@ -11,23 +11,47 @@
 {% endblock %}
 
 {% block body %}
-    <a href="{{ path('editTap') }}" class="btn btn-sm btn-primary pull-right">Add Tap</a>
-    <table class="table table-hover">
-        <thead>
-            <th>Name</th>
-            <th>Created By</th>
-            <th>Date Created</th>
-            <th></th>
-        </thead>
-        <tbody>
-            {% for tap in taps %}
-                <tr>
-                    <td>{{ tap.getName() }}</td>
-                    <td>{{ tap.getAddedBy() }}</td>
-                    <td>{{ tap.getAddedDate()|date('Y-m-d') }}</td>
-                    <td><a href="{{ path('editTap', { 'tap_id': tap.iD}) }}" class="btn btn-sm btn-default">Edit</a></td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <div class="table-responsive">
+        <div class="widget">
+            <div class="widget-body">
+                <div class="header">
+                    <div class="col-sm-6">
+                        Displaying taps for location {{ currentLocation.getName() }} <a href="" class="btn btn-xs btn-default">change</a>
+                    </div>
+                    <div class="col-sm-6 text-right">
+                        <a href="{{ path('editTap') }}" class="btn btn-sm btn-primary">Add Tap</a>
+                    </div>
+                </div>
+                <div class="table-toolbar">
+
+                </div>
+                <table class="table table-hover">
+                    <thead>
+                        <th>Name</th>
+                        <th class="hidden-xs">Created By</th>
+                        <th class="hidden-xs">Date Created</th>
+                        <th class="hidden-xs">Modified By</th>
+                        <th class="hidden-xs">Date Modified</th>
+                        <th></th>
+                    </thead>
+                    <tbody>
+                        {% for tap in taps %}
+                            <tr>
+                                <td>{{ tap.getName() }}</td>
+                                <td class="hidden-xs">{{ tap.getAddedByName() }}</td>
+                                <td class="hidden-xs">{{ tap.getAddedDate()|date('Y-m-d') }}</td>
+                                <td class="hidden-xs">{{ tap.getModifiedByName() }}</td>
+                                <td class="hidden-xs">{{ tap.getModifiedDate()|date('Y-m-d') }}</td>
+                                <td>
+                                    <a href="{{ path('editBeers', { 'tap_id': tap.getID()}) }}" class="btn btn-sm btn-default">Manage Beers</a>
+                                    <a href="{{ path('editTap', { 'tap_id': tap.getID()}) }}" class="btn btn-sm btn-default">Edit Tap</a>
+                                    <a href="{{ path('deleteTapConfirm', { 'tap_id': tap.iD}) }}" class="btn btn-sm btn-default">Delete</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 {% endblock %}

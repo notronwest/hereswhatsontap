@@ -15,27 +15,47 @@
 {% endblock %}
 
 {% block body %}
-    <a href="{{ path('editLocation') }}" class="btn btn-sm btn-primary pull-right">Add Location</a>
-    <table class="table table-hover">
-        <thead>
-            <th>Name</th>
-            <th>Created By</th>
-            <th>Date Created</th>
-            <th>Last Modified By</th>
-            <th>Modified By</th>
-            <th></th>
-        </thead>
-        <tbody>
-            {% for location in locations %}
-                <tr>
-                    <td>{{ location.getName() }}</td>
-                    <td>{{ location.getAddedByName() }}</td>
-                    <td>{{ location.getAddedDate()|date('Y-m-d') }}</td>
-                    <td>{{ location.getModifiedByName() }}</td>
-                    <td>{{ location.getModifiedDate()|date('Y-m-d') }}</td>
-                    <td><a href="{{ path('editLocation', { 'location_id': location.iD}) }}" class="btn btn-sm btn-default">Edit</a></td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <div class="table-responsive">
+        <div class="widget">
+            <div class="widget-body">
+                <div class="table-toolbar text-right">
+                    <a href="{{ path('editLocation') }}" class="btn btn-sm btn-primary">Add Location</a>
+                </div>
+                <table class="table table-hover">
+                    <thead>
+                        <th>Name</th>
+                        <th class="hidden-xs">Address</th>
+                        <th class="hidden-xs">City</th>
+                        <th class="hidden-xs">State</th>
+                        <th class="hidden-xs">Zip</th>
+                        <th class="hidden-xs">Phone</th>
+                        <th class="hidden-xs">Last Modified</th>
+                        <th class="hidden-xs">Modified By</th>
+                        <th></th>
+                    </thead>
+                    <tbody>
+                        {% for location in locations %}
+                            <tr>
+                                <td>{{ location.getName() }} {% if location.getDefault %}<span class="glyphicon glyphicon-asterisk"></span>{% endif %}</td>
+                                <td class="hidden-xs">{{ location.getAddress() }}</td>
+                                <td class="hidden-xs">{{ location.getCity() }}</td>
+                                <td class="hidden-xs">{{ location.getState() }}</td>
+                                <td class="hidden-xs">{{ location.getZip() }}</td>
+                                <td class="hidden-xs">{{ location.getPhone() }}</td>
+                                <td class="hidden-xs">{{ location.getModifiedDate()|date('Y-m-d') }}</td>
+                                <td class="hidden-xs">{{ location.getModifiedByName() }}</td>
+                                <td>
+                                    <a href="{{ path('editLocation', { 'location_id': location.iD}) }}" class="btn btn-sm btn-default">Edit</a>
+                                    <a href="{{ path('deleteLocationConfirm', { 'location_id': location.iD}) }}" class="btn btn-sm btn-default">Delete</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <div class="footer">
+                    <span class="glyphicon glyphicon-asterisk"></span> = default location
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

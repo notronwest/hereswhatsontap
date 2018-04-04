@@ -1,0 +1,21 @@
+{% extends '@App/admin/location/list.html.twig' %}
+
+{% block body %}
+<div class="col-sm-offset-3 col-sm-6">
+    <div class="panel panel-default">
+        <div class="well">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h2>Are you sure you want to delete {{ location.name }}?</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 text-right">
+                    <a href="{{ path('locations') }}" class="btn btn-small btn-default">No</a>
+                    <a href="{{ path('deleteLocation', { 'location_id': location.getID() } ) }}" class="btn btn-small btn-primary">Yes</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

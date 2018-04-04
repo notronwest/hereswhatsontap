@@ -5,109 +5,68 @@
 {% endblock %}
 
 {% block body %}
-    <div class="row">
-        <div class="col-md-offset-2 col-md-8">
-            <form class="form-horizontal" role="form" action="{{ path('saveLocation') }}" method="post">
-                    <div class="form-group">
-                        <input type="text" class="form-control" id="location_name" name="location_name" value="{{ location.getName() }}" placeholder="Name"/>
-                    </div>
+<div class="widget">
+    <div class="widget-body">
+        <form role="form" action="{{ path('saveLocation') }}" method="post">
                 <div class="form-group">
-                    <div class="form-title">Address</div>
+                    <input type="text" class="form-control" id="location_name" name="location_name" value="{{ location.getName() }}" placeholder="Name"/>
                 </div>
-                    <div class="form-group">
-                        <input type="text" class="form-control" id="location_address" name="location_address" value="{{ location.getAddress() }}" placeholder="Address"/>
-                    </div>
-                    <div class="form-group">
-                        <input type="text" class="form-control" id="location_address2" name="location_address2" value="{{ location.getAddress2() }}" placeholder="Address2"/>
-                    </div>
-
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <input type="text" class="form-control" id="location_city" name="location_city" value="{{ location.getCity() }}" placeholder="City"/>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <select id="location_state" name="location_state" style="width:100%;" class="">
-                            <option value="AL" />Alabama
-                            <option value="AK" />Alaska
-                            <option value="AZ" />Arizona
-                            <option value="AR" />Arkansas
-                            <option value="CA" />California
-                            <option value="CO" />Colorado
-                            <option value="CT" />Connecticut
-                            <option value="DE" />Delaware
-                            <option value="FL" />Florida
-                            <option value="GA" />Georgia
-                            <option value="HI" />Hawaii
-                            <option value="ID" />Idaho
-                            <option value="IL" />Illinois
-                            <option value="IN" />Indiana
-                            <option value="IA" />Iowa
-                            <option value="KS" />Kansas
-                            <option value="KY" />Kentucky
-                            <option value="LA" />Louisiana
-                            <option value="ME" />Maine
-                            <option value="MD" />Maryland
-                            <option value="MA" />Massachusetts
-                            <option value="MI" />Michigan
-                            <option value="MN" />Minnesota
-                            <option value="MS" />Mississippi
-                            <option value="MO" />Missouri
-                            <option value="MT" />Montana
-                            <option value="NE" />Nebraska
-                            <option value="NV" />Nevada
-                            <option value="NH" />New Hampshire
-                            <option value="NJ" />New Jersey
-                            <option value="NM" />New Mexico
-                            <option value="NY" />New York
-                            <option value="NC" />North Carolina
-                            <option value="ND" />North Dakota
-                            <option value="OH" />Ohio
-                            <option value="OK" />Oklahoma
-                            <option value="OR" />Oregon
-                            <option value="PA" />Pennsylvania
-                            <option value="RI" />Rhode Island
-                            <option value="SC" />South Carolina
-                            <option value="SD" />South Dakota
-                            <option value="TN" />Tennessee
-                            <option value="TX" />Texas
-                            <option value="UT" />Utah
-                            <option value="VT" />Vermont
-                            <option value="VA" />Virginia
-                            <option value="WA" />Washington
-                            <option value="WV" />West Virginia
-                            <option value="WI" />Wisconsin
-                            <option value="WY" />Wyoming
-                        </select>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <input type="text" class="form-control" id="location_zip" name="location_zip" data-mask="99999" value="{{ location.getZip() }}" placeholder="Zip"/>
-                        </div>
-                    </div>
+            <div class="form-group">
+                <div class="form-title">Address</div>
+            </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" id="location_address" name="location_address" value="{{ location.getAddress() }}" placeholder="Address"/>
                 </div>
                 <div class="form-group">
-                    <div class="form-title">Phone Number</div>
-                </div>
-                <div class="form-group">
-                    <input type="text" class="form-control" id="location_phone" name="location_phone" value="{{ location.getPhone() }}" placeholder="Phone"/>
-                </div>
-                <div class="row">
-                    <div class="col-sm-offset-10 col-sm-2 text-right">
-                        <button type="button" name="cancel" class="btn btn-default">Cancel</button>
-                        <button type="submit" name="save" class="btn btn-primary">Save</button>
-                    </div>
+                    <input type="text" class="form-control" id="location_address2" name="location_address2" value="{{ location.getAddress2() }}" placeholder="Address2"/>
                 </div>
 
-                <input type="hidden" name="location_id" value="{{ location.id }}"/>
-            </form>
-        </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="location_city" name="location_city" value="{{ location.getCity() }}" placeholder="City"/>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="location_state" name="location_state" value="{{ location.getState() }}" placeholder="State" maxlength="2"/>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="location_zip" name="location_zip" data-mask="99999" value="{{ location.getZip() }}" placeholder="Zip"/>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="form-title">Phone Number</div>
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" id="location_phone" name="location_phone" value="{{ location.getPhone() }}" placeholder="Phone"/>
+            </div>
+            <div class="form-group">
+                <h5>Default Location</h5>
+            </div>
+            <div class="form-group">
+                {% if location.getDefault() %} }
+                    {% set checked = 'checked="checked"' %}
+                {% else %}
+                    {% set checked = '' %}
+                {% endif %}
+                <label>
+                    <input class="checkbox-slider" type="checkbox" id="location_default" name="location_default"{{ checked }} value="1" />
+                    <span class="text"></span>
+                </label>
+            </div>
+            <div class="row">
+                <div class="col-sm-offset-10 col-sm-2 text-right">
+                    <button type="button" name="cancel" class="btn btn-default">Cancel</button>
+                    <button type="submit" name="save" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+
+            <input type="hidden" name="location_id" value="{{ location.id }}"/>
+        </form>
     </div>
-    {% block additional_javascript %}
-        <script src="/assets/js/select2/select2.js"></script>
-        <script>
-            $("#location_state").select2();
-        </script>
-    {% endblock %}
+</div>
 {% endblock %}

@@ -25,7 +25,7 @@ class Location extends BaseController
 
         $Locations = $this->getDoctrine()
             ->getRepository(LocationEntity::class)
-            ->findBy(['customer'=>$this->getCurrentCustomer()]);
+            ->findBy(['customer' => $this->getCurrentCustomer()]);
 
         return $this->render("@App/admin/location/list.html.twig",
             ['locations' => $Locations]);
@@ -40,13 +40,7 @@ class Location extends BaseController
 
         // if we have a valid location id passed in then try and get the results
 
-        $location = $this->getDoctrine()
-            ->getRepository(LocationEntity::class)
-            ->find($location_id);
-
-        if(!$location){
-            $location = new LocationEntity();
-        }
+        $location = $this->getLocation($location_id);
 
         return $this->render("@App/admin/location/edit.html.twig",
             ['location' => $location]);
@@ -60,16 +54,16 @@ class Location extends BaseController
     {
         $location_id = $request->request->get('location_id');
 
-        $entityManager = $this->getDoctrine()->getManager();
-        try{
-            // do all of the saving and
-            $location = $this->getDoctrine()
-                ->getRepository(LocationEntity::class)
-                ->find($location_id);
+        // default
+        if (!$request->request->get('location_default'))
+        {
+            $request->request->set('location_default', 0);
+        }
 
-            if( !$location ){
-                $location = new LocationEntity();
-            }
+        $entityManager = $this->getDoctrine()->getManager();
+        try {
+            // do all of the saving and
+            $location = $this->getLocation($location_id);
 
             $location->setName($request->request->get('location_name'));
             $location->setAddress($request->request->get('location_address'));
@@ -78,18 +72,72 @@ class Location extends BaseController
             $location->setState($request->request->get('location_state'));
             $location->setZip($request->request->get('location_zip'));
             $location->setPhone($request->request->get('location_phone'));
+            $location->setDefault($request->request->get('location_default'));
             $location->setCustomer($this->getCurrentCustomer());
+
+            $oldDefault = $this->getDefaultLocation();
+            // before saving this location handle defaulting
+            if( $oldDefault->getID() != NULL && $oldDefault != $location ) {
+                $oldDefault->setDefault(0);
+                $entityManager->persist($oldDefault);
+            }
 
             // save entity to DB
             $entityManager->persist($location);
             $entityManager->flush();
 
-        } catch ( \Exception $exception ){
+
+
+        } catch (\Exception $exception) {
             throw $exception;
         }
 
+        // TODO: add message
 
-        return $this->listLocations();
+        return $this->redirect($this->generateUrl('locations'));
+    }
+
+    /**
+     * @Route("/admin/location/deleteConfirm/{location_id}", name="deleteLocationConfirm")
+     */
+    public function deleteLocationConfirm($location_id)
+    {
+
+        return $this->render("@App/admin/location/delete.html.twig", [
+            'location' => $this->getLocation($location_id)
+        ]);
+    }
+
+    /**
+     * @Route("/admin/location/deleteLocation/{location_id}", name="deleteLocation")
+     */
+    public function deleteLocation($location_id)
+    {
+        // TODO: Need to add some verification that this location is valid
+        $location = $this->getLocation($location_id);
+
+        $entityManager = $this->getDoctrine()
+            ->getManager();
+        $entityManager->remove($location);
+        $entityManager->flush();
+
+        // TODO: add message
+        return $this->redirect($this->generateUrl('locations'));
+    }
+
+    function getLocation($location_id)
+    {
+        $location = $this->getDoctrine()
+            ->getManager()
+            ->getRepository(LocationEntity::class)
+            ->find($location_id);
+
+        if (!$location) {
+            // need to do some error handling here
+            $location = new LocationEntity();
+        }
+
+        return $location;
     }
 
 }

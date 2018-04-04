@@ -4,6 +4,7 @@ namespace App\Entity;
 
 
 use App\BaseORMEntity;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\UniqueConstraint as UniqueConstraint;
 use Doctrine\ORM\Mapping\ManyToOne as ManyToOne;
@@ -23,7 +24,11 @@ use Doctrine\ORM\Mapping\JoinColumn as JoinColumn;
  */
 class Location extends BaseORMEntity
 {
-
+    public function __construct()
+    {
+        $this->taps = new ArrayCollection();
+        parent::__construct();
+    }
 
     /**
      * @ORM\Id
@@ -61,6 +66,11 @@ class Location extends BaseORMEntity
      * @ORM\Column(type="string", name="location_zip", length=9, nullable=true)
      */
     protected $zip;
+
+    /**
+     * @ORM\Column(type="boolean", name="location_default")
+     */
+    protected $default = 0;
 
     /**
      * @ORM\Column(type="string", name="location_phone", length=10, nullable=true)
@@ -103,10 +113,15 @@ class Location extends BaseORMEntity
     protected $active = 1;
 
     /**
-     * @ManyToOne(targetEntity="Customer", cascade={"all"}, fetch="LAZY")
+     * @ManyToOne(targetEntity="Customer", inversedBy="locations", cascade={"persist","remove"})
      * @JoinColumn(name="customer_id",referencedColumnName="customer_id")
      */
     protected $customer;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Tap", mappedBy="location")
+     */
+    protected $taps;
 
     /**
      * @return mixed
@@ -223,6 +238,23 @@ class Location extends BaseORMEntity
     /**
      * @return mixed
      */
+    public function getDefault()
+    {
+        return $this->default;
+    }
+
+    /**
+     * @param mixed $default
+     */
+    public function setDefault($default): void
+    {
+        $this->default = $default;
+    }
+
+
+    /**
+     * @return mixed
+     */
     public function getCustomer()
     {
         return $this->customer;
@@ -234,6 +266,28 @@ class Location extends BaseORMEntity
     public function setCustomer($customer): void
     {
         $this->customer = $customer;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getTaps()
+    {
+        return $this->taps;
+    }
+
+    /**
+     * @param Tap $tap
+     */
+    public function addTap($tap)
+    {
+        if( !$this->taps ){
+            $this->taps = new ArrayCollection();
+        }
+
+        if( !$this->taps->contains($tap) ){
+            $this->taps->add($tap);
+        }
     }
 
 
