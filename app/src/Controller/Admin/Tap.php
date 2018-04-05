@@ -19,7 +19,7 @@ use App\Entity\Tap as TapEntity;
 class Tap extends BaseController
 {
     /**
-     * @Route("/admin/taps", name="taps")
+     * @Route("/admin/tap", name="taps")
      */
     public function listTaps()
     {
@@ -28,13 +28,15 @@ class Tap extends BaseController
             ->getRepository(TapEntity::class)
             ->findBy(['location' => $this->getCurrentLocation()]);
 
-        return $this->render("@App/admin/tap/list.html.twig",
-            ['taps' => $Taps, 'currentLocation' => $this->getCurrentLocation()]);
+        return $this->render("@App/admin/tap/list.html.twig", [
+            'taps' => $Taps,
+            'currentLocation' => $this->getCurrentLocation(),
+        ]);
 
     }
 
     /**
-     * @Route("/admin/taps/edit/{tap_id}", name="editTap", defaults={"tap_id" = ""})
+     * @Route("/admin/tap/edit/{tap_id}", name="editTap", defaults={"tap_id" = ""})
      */
     public function editTap($tap_id)
     {
@@ -43,13 +45,15 @@ class Tap extends BaseController
 
         $tap = $this->getTap($tap_id);
 
-        return $this->render("@App/admin/tap/edittap.html.twig",
-            ['tap' => $tap, 'location' => $this->getCurrentLocation()]);
+        return $this->render("@App/admin/tap/edit.html.twig", [
+            'tap' => $tap,
+            'location' => $this->getCurrentLocation(),
+        ]);
 
     }
 
     /**
-     * @Route("/admin/taps/save/", name="saveTap")
+     * @Route("/admin/tap/save", name="saveTap")
      */
     public function saveTap(Request $request)
     {
@@ -76,12 +80,14 @@ class Tap extends BaseController
         if ($request->request->get('save')) {
             return $this->redirect($this->generateUrl( 'taps'));
         } else {
-            return $this->editBeers();
+            return $this->redirect($this->generateUrl('listBeers', [
+                'tap_id' => $tap.getID(),
+            ]));
         }
     }
 
     /**
-     * @Route("/admin/tap/deleteConfirm/{tap_id}", name="deleteTapConfirm")
+     * @Route("/admin/tap/delete-confirm/{tap_id}", name="deleteTapConfirm")
      */
     public function deleteTapConfirm($tap_id)
     {
@@ -93,22 +99,6 @@ class Tap extends BaseController
         return $this->render('@App/admin/tap/delete.html.twig',[
             'tap' => $tap
         ]);
-    }
-
-    /**
-     * @Route("/admin/taps/editBeers/{tap_id}", name="editBeers")
-     */
-    public function editBeers()
-    {
-        return $this->render('@App/admin/tap/editbeers.html.twig');
-    }
-
-    /**
-     * @Route("/admin/taps/save/beers", name="saveBeers")
-     */
-    public function saveBeers(Request $request)
-    {
-        return $this->index();
     }
 
     public function getTap($tap_id)
@@ -124,4 +114,5 @@ class Tap extends BaseController
             return new TapEntity();
         }
     }
+
 }

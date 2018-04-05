@@ -1,0 +1,58 @@
+{% extends '@App/admin/beer/list.html.twig' %}
+
+{% block page_header %}
+    Edit Beer
+{% endblock %}
+
+{% block body %}
+    <div class="widget">
+        <div class="widget-body">
+            <form role="form" action="{{ path('saveBeer') }}" method="post">
+                <div class="form-group">
+                    <input type="text" class="form-control" id="beer_name" name="beer_name" value="{{ beer.getName() }}" placeholder="Name"/>
+                </div>
+                <div class="form-group">
+                    <div class="form-title">Attributes</div>
+                </div>
+                <!-- // <div class="form-group">
+                    <input type="text" class="form-control" id="beer_address" name="beer_address" value="" placeholder="Address"/>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" id="beer_address2" name="beer_address2" value="" placeholder="Address2"/>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="beer_city" name="beer_city" value="" placeholder="City"/>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="beer_state" name="beer_state" value="" placeholder="State" maxlength="2"/>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="beer_zip" name="beer_zip" data-mask="99999" value="" placeholder="Zip"/>
+                        </div>
+                    </div>
+                </div> -->
+                <div class="form-group">
+                    <div class="form-title">Pricing</div>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" id="beer_phone" name="beer_phone" value="{{ beer.getPrice() }}" placeholder="Price"/>
+                </div>
+                <div class="row">
+                    <div class="col-sm-offset-10 col-sm-2 text-right">
+                        <button type="button" name="cancel" class="btn btn-default">Cancel</button>
+                        <button type="submit" name="save" class="btn btn-primary">Save</button>
+                    </div>
+                </div>
+
+                <input type="hidden" name="beer_id" value="{{ beer.id }}"/>
+            </form>
+        </div>
+    </div>
+{% endblock %}

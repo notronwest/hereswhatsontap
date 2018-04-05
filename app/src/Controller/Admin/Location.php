@@ -18,22 +18,23 @@ class Location extends BaseController
 {
 
     /**
-     * @Route("/admin/locations", name="locations")
+     * @Route("/admin/location", name="locations")
      */
     public function listLocations()
     {
 
-        $Locations = $this->getDoctrine()
+        $locations = $this->getDoctrine()
             ->getRepository(LocationEntity::class)
             ->findBy(['customer' => $this->getCurrentCustomer()]);
 
-        return $this->render("@App/admin/location/list.html.twig",
-            ['locations' => $Locations]);
+        return $this->render("@App/admin/location/list.html.twig", [
+            'locations' => $locations,
+            ]);
 
     }
 
     /**
-     * @Route("/admin/locations/edit/{location_id}", name="editLocation", defaults={"location_id" = ""})
+     * @Route("/admin/location/edit/{location_id}", name="editLocation", defaults={"location_id" = ""})
      */
     public function editLocation($location_id)
     {
@@ -42,13 +43,14 @@ class Location extends BaseController
 
         $location = $this->getLocation($location_id);
 
-        return $this->render("@App/admin/location/edit.html.twig",
-            ['location' => $location]);
+        return $this->render("@App/admin/location/edit.html.twig", [
+            'location' => $location,
+        ]);
 
     }
 
     /**
-     * @Route("/admin/locations/save/", name="saveLocation")
+     * @Route("/admin/location/save/", name="saveLocation")
      */
     public function saveLocation(Request $request)
     {
@@ -98,7 +100,7 @@ class Location extends BaseController
     }
 
     /**
-     * @Route("/admin/location/deleteConfirm/{location_id}", name="deleteLocationConfirm")
+     * @Route("/admin/location/delete-confirm/{location_id}", name="deleteLocationConfirm")
      */
     public function deleteLocationConfirm($location_id)
     {
@@ -109,7 +111,7 @@ class Location extends BaseController
     }
 
     /**
-     * @Route("/admin/location/deleteLocation/{location_id}", name="deleteLocation")
+     * @Route("/admin/location/delete/{location_id}", name="deleteLocation")
      */
     public function deleteLocation($location_id)
     {
@@ -125,7 +127,34 @@ class Location extends BaseController
         return $this->redirect($this->generateUrl('locations'));
     }
 
-    function getLocation($location_id)
+    /**
+     * @Route("/admin/location/current-list/{returnURL}", name="currentLocation", requirements={"returnURL"=".+"})
+     */
+    public function currentLocationList($returnURL)
+    {
+        $locations = $this->getDoctrine()
+            ->getRepository(LocationEntity::class)
+            ->findBy(['customer' => $this->getCurrentCustomer()]);
+
+        return $this->render("@App/admin/location/current_location_list.html.twig", [
+            'locations' => $locations,
+            'returnURL' => $returnURL,
+            'currentLocation' => $this->getCurrentLocation(),
+        ]);
+    }
+
+    /**
+     * @Route("/admin/location/set-current/{location_id}/{returnURL}", name="setCurrentLocation", requirements={"returnURL"=".+"})
+     */
+    public function handleCurrentLocation($location_id, $returnURL)
+    {
+        $this->setCurrentLocation($this->getLocation($location_id));
+
+        return $this->redirect($returnURL);
+
+    }
+
+    private function getLocation($location_id)
     {
         $location = $this->getDoctrine()
             ->getManager()
@@ -139,5 +168,6 @@ class Location extends BaseController
 
         return $location;
     }
+
 
 }

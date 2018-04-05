@@ -1,0 +1,47 @@
+{% extends '@App/admin/admin.html.twig' %}
+
+{% block page_header %}
+    Locations
+{% endblock %}
+
+{% block breadcrumbs %}
+    <ul class="breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a href="#">Home</a>
+        </li>
+        <li class="active"><a href="{{ path('locations') }}">Locations</a></li>
+    </ul>
+{% endblock %}
+
+{% block body %}
+    <div class="table-responsive">
+        <div class="widget">
+            <div class="widget-body">
+                <div class="table-toolbar text-right">
+                    <a href="{{ path('editLocation') }}" class="btn btn-sm btn-primary">Add Location</a>
+                </div>
+                <table class="table table-hover">
+                    <thead>
+                    <th>Name</th>
+                    <th class="hidden-xs">Zip</th>
+                    <th class="hidden-xs">Phone</th>
+                    <th></th>
+                    </thead>
+                    <tbody>
+                    {% for location in locations %}
+                        <tr>
+                            <td>{{ location.getName() }}</td>
+                            <td class="hidden-xs">{{ location.getZip() }}</td>
+                            <td class="hidden-xs">{{ location.getPhone() }}</td>
+                            <td>
+                                {% if currentLocation.getID() == location.getID() %}<span class="glyphicon glyphicon-asterisk">Current</span>{% else %}<a href="{{ path('setCurrentLocation', { 'location_id': location.iD, 'returnURL': returnURL}) }}" class="btn btn-sm btn-default">Set as current</a>{% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

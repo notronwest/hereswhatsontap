@@ -16,7 +16,7 @@
             <div class="widget-body">
                 <div class="header">
                     <div class="col-sm-6">
-                        Displaying taps for location {{ currentLocation.getName() }} <a href="" class="btn btn-xs btn-default">change</a>
+                        Displaying taps for location {{ currentLocation.getName() }} <a href="{{ path('currentLocation', {returnURL: path('taps')}) }}" class="btn btn-xs btn-default">change</a>
                     </div>
                     <div class="col-sm-6 text-right">
                         <a href="{{ path('editTap') }}" class="btn btn-sm btn-primary">Add Tap</a>
@@ -43,7 +43,7 @@
                                 <td class="hidden-xs">{{ tap.getModifiedByName() }}</td>
                                 <td class="hidden-xs">{{ tap.getModifiedDate()|date('Y-m-d') }}</td>
                                 <td>
-                                    <a href="{{ path('editBeers', { 'tap_id': tap.getID()}) }}" class="btn btn-sm btn-default">Manage Beers</a>
+                                    <a href="{{ path('listBeers', { 'tap_id': tap.getID()}) }}" class="btn btn-sm btn-default">Manage Beers</a>
                                     <a href="{{ path('editTap', { 'tap_id': tap.getID()}) }}" class="btn btn-sm btn-default">Edit Tap</a>
                                     <a href="{{ path('deleteTapConfirm', { 'tap_id': tap.iD}) }}" class="btn btn-sm btn-default">Delete</a>
                                 </td>
