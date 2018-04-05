@@ -105,12 +105,11 @@ class Tap extends BaseController
     {
 
         $tap = $this->getDoctrine()
+            ->getManager()
             ->getRepository(TapEntity::class)
             ->find($tap_id);
 
         if($tap){
-            return $tap[0];
-        } else {
             return new TapEntity();
         }
     }

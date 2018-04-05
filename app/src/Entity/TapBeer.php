@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping\JoinColumn as JoinColumn;
 
 
 /**
- * @ORM\Entity(repositoryClass="TapBeerRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\TapBeerRepository")
  * @ORM\Table(name="tap_beer",
  *            uniqueConstraints =
  *            {

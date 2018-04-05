@@ -170,7 +170,7 @@ class Pintlabs_Service_Brewerydb
         if ($this->_lastRawResponse === false) {
 
             $this->_lastRawResponse = curl_error($ch);
-            require_once 'Pintlabs/Service/Brewerydb/Exception.php';
+            //require_once 'Pintlabs/Service/Brewerydb/Exception.php';
             //throw new Pintlabs_Service_Brewerydb_Exception('CURL Error: ' . curl_error($ch));
         }
 
@@ -183,7 +183,7 @@ class Pintlabs_Service_Brewerydb
 
         // Server provides error messages in http_code and error vars.  If not 200, we have an error.
         if (isset($this->_lastParsedResponse['error'])) {
-            require_once 'Pintlabs/Service/Brewerydb/Exception.php';
+            //require_once 'Pintlabs/Service/Brewerydb/Exception.php';
             //throw new Pintlabs_Service_Brewerydb_Exception('Brewerydb Service Error: ' .
             //    $this->_lastParsedResponse['error']['message']);
         }

@@ -9,6 +9,7 @@
 namespace App\Controller\Admin;
 
 use App\BaseController;
+use App\Entity\TapBeer;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Tap as TapEntity;
@@ -21,8 +22,15 @@ class Beer extends BaseController
      */
     public function list($tap_id)
     {
+        // get the beers for this tap
+        $beers = $this->getDoctrine()
+            ->getManager()
+            ->getRepository(TapBeer::class)
+            ->findBy(['tap' => $this->getTap($tap_id)]);
+
         return $this->render('@App/admin/beer/list.html.twig', [
-            'tap' => $this->getTap($tap_id),
+            'tap'   => $this->getTap($tap_id),
+            'beers' => $beers,
         ]);
     }
 
@@ -33,8 +41,8 @@ class Beer extends BaseController
     {
         $beer = $this->getBeer($beer_id);
         return $this->render('@App/admin/beer/edit.html.twig', [
-            'tap_id' => $tap_id,
-            'beer_id' => $beer,
+            'tap'       => $this->getTap($tap_id),
+            'beer_id'   => $beer,
         ]);
     }
 
@@ -61,12 +69,11 @@ class Beer extends BaseController
     {
 
         $tap = $this->getDoctrine()
+            ->getManager()
             ->getRepository(TapEntity::class)
             ->find($tap_id);
 
-        if($tap){
-            return $tap[0];
-        } else {
+        if(!$tap){
             return new TapEntity();
         }
     }
@@ -75,12 +82,11 @@ class Beer extends BaseController
     {
 
         $beer = $this->getDoctrine()
+            ->getManager()
             ->getRepository(BeerEntity::class)
             ->find($beer_id);
 
-        if($beer){
-            return $beer[0];
-        } else {
+        if(!$beer){
             return new BeerEntity();
         }
     }

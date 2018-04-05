@@ -12,6 +12,7 @@ use App\BaseController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Location as LocationEntity;
+use App\Entity\Customer;
 
 
 class Location extends BaseController
@@ -22,6 +23,8 @@ class Location extends BaseController
      */
     public function listLocations()
     {
+
+        $customer = $this->getCurrentCustomer();
 
         $locations = $this->getDoctrine()
             ->getRepository(LocationEntity::class)
@@ -40,11 +43,11 @@ class Location extends BaseController
     {
 
         // if we have a valid location id passed in then try and get the results
-
         $location = $this->getLocation($location_id);
 
         return $this->render("@App/admin/location/edit.html.twig", [
-            'location' => $location,
+            'location'      => $location,
+            'customer_id'   => $this->getCurrentCustomer()->getID(),
         ]);
 
     }
@@ -55,6 +58,7 @@ class Location extends BaseController
     public function saveLocation(Request $request)
     {
         $location_id = $request->request->get('location_id');
+        $customer = $this->getCustomer($request->request->get('customer_id'));
 
         // default
         if (!$request->request->get('location_default'))
@@ -75,7 +79,7 @@ class Location extends BaseController
             $location->setZip($request->request->get('location_zip'));
             $location->setPhone($request->request->get('location_phone'));
             $location->setDefault($request->request->get('location_default'));
-            $location->setCustomer($this->getCurrentCustomer());
+            $location->setCustomer($customer);
 
             $oldDefault = $this->getDefaultLocation();
             // before saving this location handle defaulting
@@ -85,6 +89,7 @@ class Location extends BaseController
             }
 
             // save entity to DB
+            $entityManager->persist($customer);
             $entityManager->persist($location);
             $entityManager->flush();
 
@@ -169,5 +174,18 @@ class Location extends BaseController
         return $location;
     }
 
+    function getCustomer($customer_id)
+    {
+        $customer = $this->getDoctrine()
+            ->getManager()
+            ->getRepository(Customer::class)
+            ->find($customer_id);
 
+        if (!$customer) {
+            // need to do some error handling here
+            $customer = new Customer();
+        }
+
+        return $customer;
+    }
 }
