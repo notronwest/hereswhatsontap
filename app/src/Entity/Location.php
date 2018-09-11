@@ -27,6 +27,7 @@ class Location extends BaseORMEntity
     public function __construct()
     {
         $this->taps = new ArrayCollection();
+        $this->beers = new ArrayCollection();
         parent::__construct();
     }
 
@@ -122,6 +123,11 @@ class Location extends BaseORMEntity
      * @ORM\OneToMany(targetEntity="Tap", mappedBy="location")
      */
     protected $taps;
+
+    /**
+     * @ORM\OneToMany(targetEntity="CustomerBeer", mappedBy="location")
+     */
+    protected $beers;
 
     /**
      * @return mixed
@@ -287,6 +293,28 @@ class Location extends BaseORMEntity
 
         if( !$this->taps->contains($tap) ){
             $this->taps->add($tap);
+        }
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getBeers()
+    {
+        return $this->beers;
+    }
+
+    /**
+     * @param Beer $beer
+     */
+    public function addBeer($beer)
+    {
+        if( !$this->beers ){
+            $this->beers = new ArrayCollection();
+        }
+
+        if( !$this->beers->contains($beer) ){
+            $this->beers->add($beer);
         }
     }
 

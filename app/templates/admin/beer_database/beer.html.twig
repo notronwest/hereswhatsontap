@@ -1,0 +1,72 @@
+{% extends '@App/admin/admin.html.twig' %}
+
+{% block page_header %}
+    Edit Beer
+{% endblock page_header %}
+
+{% block body %}
+
+    <div class="widget">
+        <div class="widget-body">
+
+            <form action="{{ path('searchForBeers') }}" method="post">
+                <div class="form-group">
+                    <span class="input-icon icon-right">
+                        <input type="text" class="form-control input-sm" id="search" name="name" value="{{ name }}" placeholder="Search for Beer"/>
+                        <i class="glyphicon glyphicon-search blue"></i>
+                    </span>
+                </div>
+            </form>
+
+            <div class="table-responsive">
+                <table class="table table-hover" id="results">
+                    <thead>
+                    <th>Name</th>
+                    <th>Brewery</th>
+                    <th class="hidden-xs">IBU</th>
+                    <th class="hidden-xs">ABV</th>
+                    <th></th>
+                    </thead>
+                    <tbody>
+                    {% if beers|length == 0 %}
+                    <tr class="alert alert-info">
+                        <td colspan="5">No beer found with that name. Please try again</td>
+                    </tr>
+                    {% endif %}
+                    {% for beer in beers %}
+                        <tr data-id="{{ beer.getAPIID() }}">
+                            <td>{{ beer.getName() }}</td>
+                            <td>{{ beer.getBrewery().getName() }}</td>
+                            <td class="hidden-xs">{{ beer.getIBU() }}</td>
+                            <td class="hidden-xs">{{ beer.getABV() }}</td>
+                            <td>
+                                <a href="{{ path('editBeer', { 'uniqueID': beer.getAPIID() }) }}" class="btn btn-sm btn-primary">Add</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {#
+            <form action="{{ path('addBeerToTap') }}" method="post">
+                <input type="hidden" name="beer_appiid" id="APPIID" value=""/>
+                <a href="{{ path('taps') }}" class="btn btn-xs btn-default">Cancel</a>
+                <button class="btn btn-xs btn-primary" type="submit">Add Beer to Tap</button>
+            </form>
+            #}
+        </div>
+    </div>
+
+{% endblock body %}
+
+{% block additional_javascript %}
+    <!--Page Related Scripts-->
+    <script>
+        $(function(){
+           $('#results').on('click', 'tbody tr', function(event){
+             $(this).addClass('highlight').siblings().removeClass('highlight');
+             $('#APIID').val($(this).data('id'));
+           });
+        });
+    </script>
+{% endblock additional_javascript %}

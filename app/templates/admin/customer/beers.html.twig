@@ -1,0 +1,59 @@
+{% extends '@App/admin/admin.html.twig' %}
+
+{% block page_header %}
+    Beers
+{% endblock page_header %}
+
+{% block body %}
+
+<div class="widget">
+    {% if numberOfLocations > 1 %}
+        <div class="widget-header bordered-bottom bordered-sky">
+            <span class="widget-caption">Displaying beers for location {{ currentLocation.getName() }}</span>
+            <div class="widget-buttons">
+                <a href="{{ path('currentLocation', {returnURL: path('customerBeers')}) }}" data-toggle="config">
+                    <i class="fa fa-cog"></i>
+                </a>
+            </div>
+        </div>
+    {%  endif %}
+    <div class="widget-body">
+        <div class="form-group">
+            <div class="dd">
+                <ol class="dd-list">
+                    {% for beer in beers %}
+                        <li class="dd-item dd2-item" data-id="">
+                            <div class="dd-handle dd2-handle">
+                                <i class="normal-icon fa fa-beer"></i>
+                            </div>
+                            <div class="dd2-content">
+                                <div class="row">
+                                    <div class="col-xs-4">
+                                        {{ beer.getBeer().getName() }}
+                                    </div>
+                                    <div class="col-xs-4 hidden-xs">
+                                        [{{ beer.getGlass().getName() }}] - {{ beer.getTapDate()|date('m/d/Y') }}
+                                    </div>
+                                    <div class="col-xs-4 text-right">
+                                        <a href="" class="btn btn-xs btn-danger">Delete</a>
+                                        <a href="{{ path('editBeer', { 'uniqueID': beer.getID() }) }}" class="btn btn-xs btn-primary">Edit</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    {% endfor %}
+                    <li class="dd-item dd2-item" data-id="">
+                        <!-- // <div class="dd-handle dd2-handle">
+                            <i class="normal-icon fa fa-beer"></i>
+                        </div> -->
+                        <div class="dd2-content text-right">
+                            <a href="{{ path('searchForBeers') }}" class="btn btn-xs btn-primary btn-block">Add Beer</a>
+                        </div>
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock body %}

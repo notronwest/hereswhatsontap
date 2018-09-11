@@ -10,13 +10,26 @@ namespace App\Controller\Admin;
 
 use App\BaseController;
 use App\Entity\TapBeer;
+use App\Service\BeerService;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Tap as TapEntity;
 use App\Entity\Beer as BeerEntity;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class Beer extends BaseController
 {
+
+    private $beerService;
+
+    public function __construct(EntityManagerInterface $entityManager, SessionInterface $session, TokenStorageInterface $tokenStorage, BeerService $beerService)
+    {
+        parent::__construct($entityManager, $session, $tokenStorage);
+        $this->beerService = $beerService;
+    }
+
     /**
      * @Route("/admin/beer/{tap_id}", name="listBeers")
      */
@@ -24,12 +37,13 @@ class Beer extends BaseController
     {
         // get the beers for this tap
         $beers = $this->getDoctrine()
-            ->getManager()
             ->getRepository(TapBeer::class)
-            ->findBy(['tap' => $this->getTap($tap_id)]);
+            ->findBy(['tap' => $this->getTapByID($tap_id)]);
+
+        $tap = $this->getTapByID($tap_id);
 
         return $this->render('@App/admin/beer/list.html.twig', [
-            'tap'   => $this->getTap($tap_id),
+            'tap'   => $tap,
             'beers' => $beers,
         ]);
     }
@@ -39,10 +53,10 @@ class Beer extends BaseController
      */
     public function edit($tap_id, $beer_id)
     {
-        $beer = $this->getBeer($beer_id);
+
         return $this->render('@App/admin/beer/edit.html.twig', [
-            'tap'       => $this->getTap($tap_id),
-            'beer_id'   => $beer,
+            'tap'   => $this->getTapByID($tap_id),
+            'beer'  => $this->getBeer($beer_id),
         ]);
     }
 
@@ -58,6 +72,32 @@ class Beer extends BaseController
     }
 
     /**
+     * @Route("/admin/beer/add-beer-to-tap/", name="addBeerToTap")
+     */
+    public function addBeerToTap(Request $request)
+    {
+        $tap_id = $request->request->get('tap_id');
+        $beer_appid = $request->request->get('beer_appiid');
+
+        $tap = $this->getTapByID($tap_id);
+        $beer = $this->beerService->getByAPIID($beer_appid);
+
+        if($tap && $beer){
+            // see if this already exists
+            $tapBeer = $this->getDoctrine()
+                ->getRepository(TapBeer::class)
+                ->findBy(['beer'=>$beer, 'tap'=>$tap]);
+
+            if( !$tapBeer ){
+                $tapBeer = new TapBeer();
+                $tapBeer->setTap($tap);
+                $tapBeer->setBeer($beer);
+            }
+
+        }
+    }
+
+    /**
      * @Route("/admin/beer/save-tap-beers", name="saveTapBeers")
      */
     public function saveTapBeers(Request $request)
@@ -65,16 +105,19 @@ class Beer extends BaseController
         return $this->index();
     }
 
-    public function getTap($tap_id)
+    public function getTapByID($tap_id)
     {
 
         $tap = $this->getDoctrine()
-            ->getManager()
             ->getRepository(TapEntity::class)
             ->find($tap_id);
 
         if(!$tap){
             return new TapEntity();
+        } else if (is_array($tap) ) {
+            return $tap[0];
+        } else {
+            return $tap;
         }
     }
 
@@ -82,12 +125,13 @@ class Beer extends BaseController
     {
 
         $beer = $this->getDoctrine()
-            ->getManager()
             ->getRepository(BeerEntity::class)
             ->find($beer_id);
 
         if(!$beer){
             return new BeerEntity();
+        } else {
+            return $beer[0];
         }
     }
 }

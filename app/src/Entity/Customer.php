@@ -26,8 +26,9 @@ class Customer extends BaseORMEntity
     public function __construct()
     {
         parent::__construct();
-        $this->locations = new ArrayCollection();
-        $this->startdate = new \DateTime();
+        $this->locations    = new ArrayCollection();
+        $this->beers        = new ArrayCollection();
+        $this->startdate    = new \DateTime();
     }
 
     /**
@@ -91,6 +92,11 @@ class Customer extends BaseORMEntity
      * @ORM\OneToMany(targetEntity="Location", mappedBy="customer")
      */
     protected $locations;
+
+    /**
+     * @ORM\OneToMany(targetEntity="CustomerBeer", mappedBy="customer")
+     */
+    protected $beers;
 
     /**
      * @return mixed
@@ -159,6 +165,28 @@ class Customer extends BaseORMEntity
 
         if( !$this->locations->contains($location) ){
             $this->locations->add($location);
+        }
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getBeers()
+    {
+        return $this->beers;
+    }
+
+    /**
+     * @param Beer $beer
+     */
+    public function addBeer($beer)
+    {
+        if( !$this->beers ){
+            $this->beers = new ArrayCollection();
+        }
+
+        if( !$this->beers->contains($beer) ){
+            $this->beers->add($beer);
         }
     }
 

@@ -1,0 +1,93 @@
+{% extends '@App/admin/beer/list.html.twig' %}
+
+{% block title %}
+    Edit Beer
+{% endblock title %}
+
+{% block page_header %}
+    Edit Beer
+{% endblock %}
+
+{% block body %}
+
+    <!-- // set default tap date -->
+    {% if customerBeer.getTapDate() is empty  %}
+        {% set tapDate = '' %}
+    {% else %}
+        {% set tapDate = customerBeer.getTapDate()|date('m/d/Y') %}
+    {% endif %}
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="widget">
+                <div class="widget-header bordered-bottom">
+                    <span class="widget-caption">{{ customerBeer.getBeer().getName() }}</span>
+                </div>
+                <div class="widget-body">
+                    <form role="form" action="{{ path('customerBeerSave') }}" method="post">
+
+                        <div class="form-group">
+                            <label for="customer_beer_price">Price</label>
+                            <div class="input-group">
+                                <span class="input-group-addon">$</span>
+                                <input type="text" class="form-control" id="customer_beer_price" name="customer_beer_price" value="{{ customerBeer.getPrice() }}"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="customer_beer_tapdate">Tap Date</label>
+                            <div class="input-group">
+                                <input class="form-control date-picker" id="customer_beer_tapdate" name="customer_beer_tapdate" type="text" data-date-format="mm/dd/yyyy" placeholder="Tap date" value="{{ tapDate }}">
+                                <span class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="customer_beer_glass">Glass</label>
+                            <select id="customer_beer_glass" name="customer_beer_glass" style="width: 100%;">
+                                {% for glass in glasses %}
+                                    <option value="{{ glass.getID() }}"{% if glass.getID() == customerBeer.getGlass().getID() %} selected="selected"{% endif %}>{{ glass.getName() }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        {% if taps|length > 1 %}
+                            <div class="form-group">
+                                <label for="customer_beer_tap">Tap</label>
+                                <select id="customer_beer_tap" name="customer_beer_tap" style="width: 100%;">
+                                    {% for tap in taps %}
+                                        <option value="{{ tap.getID() }}">{{ tap.getName() }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        {% elseif taps|length == 1 %}
+                            <input type="hidden" name="customer_beer_tap" value="{{ taps[0].getID() }}"/>
+                        {% endif %}
+                        <div class="row">
+                            <div class="col-sm-offset-10 col-sm-2 text-right">
+                                <a href="{{ path('customerBeers') }}" class="btn btn-default">Cancel</a>
+                                <button type="submit" name="save" class="btn btn-primary">Save</button>
+                            </div>
+                        </div>
+                        <input type="hidden" name="beer_id" value="{{ customerBeer.getBeer().getID() }}"/>
+                        <input type="hidden" name="customer_beer_id" value="{{ customerBeer.getID() }}" />
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock body %}
+
+{% block additional_javascript %}
+<!--Bootstrap Date Picker-->
+<script src="/assets/js/datetime/bootstrap-datepicker.js"></script>
+<!--Jquery Select2-->
+<script src="/assets/js/select2/select2.js"></script>
+<script>
+    $(function(){
+        //--Bootstrap Date Picker--
+        $('.date-picker').datepicker();
+        //--Bootstrap Search Select --
+        $('#customer_beer_glass').select2();
+        $('#customer_beer_tap').select2();
+    });
+</script>
+{% endblock additional_javascript %}

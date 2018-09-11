@@ -11,63 +11,68 @@ use Doctrine\ORM\Mapping\JoinColumn as JoinColumn;
 
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\TapBeerRepository")
- * @ORM\Table(name="tap_beer",
+ * @ORM\Entity(repositoryClass="App\Repository\BreweryBeerRepository")
+ * @ORM\Table(name="brewery_beer",
  *            uniqueConstraints =
  *            {
  *              @UniqueConstraint(
- *                name="tap_beer_unique",
- *                columns={"beer_id", "tap_id"}
+ *                name="brewery_beer_unique",
+ *                columns={"beer_id", "brewery_id"}
  *               )
  *            }
  *     )
  */
-class TapBeer extends BaseORMEntity
+class BreweryBeer extends BaseORMEntity
 {
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="UUID")
-     * @ORM\Column(type="guid", name="tap_beer_id")
+     * @ORM\Column(type="guid", name="brewery_beer_id")
      */
     protected $id;
 
     /**
-     * @ORM\Column(type="float", name="tap_beer_price")
+     * @ORM\Column(type="float", name="brewery_beer_price")
      */
     protected $price;
 
     /**
-     * @ORM\Column(type="string", name="tap_beer_addedby", length=36)
+     * @ORM\Column(type="boolean", name="brewery_beer_display")
+     */
+    protected $display = 1;
+
+    /**
+     * @ORM\Column(type="string", name="brewery_beer_addedby", length=36)
      */
     protected $addedby;
 
     /**
-     * @ORM\Column(type="string", name="tap_beer_addedbyname", length=255)
+     * @ORM\Column(type="string", name="brewery_beer_addedbyname", length=255)
      */
     protected $addedbyname;
 
     /**
-     * @ORM\Column(type="datetime", name="tap_beer_addeddate")
+     * @ORM\Column(type="datetime", name="brewery_beer_addeddate")
      */
     protected $addeddate;
 
     /**
-     * @ORM\Column(type="string", name="tap_beer_modifiedby", length=36)
+     * @ORM\Column(type="string", name="brewery_beer_modifiedby", length=36)
      */
     protected $modifiedby;
 
     /**
-     * @ORM\Column(type="string", name="tap_beer_modifiedbyname", length=255)
+     * @ORM\Column(type="string", name="brewery_beer_modifiedbyname", length=255)
      */
     protected $modifiedbyname;
 
     /**
-     * @ORM\Column(type="datetime", name="tap_beer_modifieddate")
+     * @ORM\Column(type="datetime", name="brewery_beer_modifieddate")
      */
     protected $modifieddate;
 
     /**
-     * @ORM\Column(type="boolean", name="tap_beer_active")
+     * @ORM\Column(type="boolean", name="brewery_beer_active")
      */
     protected $active;
 
@@ -84,10 +89,26 @@ class TapBeer extends BaseORMEntity
     protected $beer;
 
     /**
-     * @ManyToOne(targetEntity="Tap", fetch="LAZY")
-     * @JoinColumn(name="tap_id",referencedColumnName="tap_id")
+     * @ManyToOne(targetEntity="Brewery", fetch="LAZY")
+     * @JoinColumn(name="brewery_id",referencedColumnName="brewery_id")
      */
-    protected $tap;
+    protected $brewery;
+
+    /**
+     * @return mixed
+     */
+    public function getDisplay()
+    {
+        return $this->display;
+    }
+
+    /**
+     * @param mixed $display
+     */
+    public function setDisplay($display): void
+    {
+        $this->display = $display;
+    }
 
     /**
      * @return mixed
@@ -140,17 +161,17 @@ class TapBeer extends BaseORMEntity
     /**
      * @return mixed
      */
-    public function getTap()
+    public function getBrewery()
     {
-        return $this->tap;
+        return $this->brewery;
     }
 
     /**
-     * @param mixed $tap
+     * @param mixed $brewery
      */
-    public function setTap($tap): void
+    public function setBrewery($brewery): void
     {
-        $this->tap = $tap;
+        $this->brewery = $brewery;
     }
 
 

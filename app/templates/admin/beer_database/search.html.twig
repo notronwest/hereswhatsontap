@@ -1,0 +1,58 @@
+{% extends '@App/admin/admin.html.twig' %}
+
+{% block body %}
+    <div class="table-responsive">
+        <div class="widget">
+            <div class="widget-body">
+                <div class="header">
+                    <div class="col-sm-6">
+                       Search for beers
+                    </div>
+                </div>
+                <div class="table-toolbar">
+
+                </div>
+                <table class="table table-hover">
+                    <thead>
+                    <th>Name</th>
+                    <th class="hidden-xs">Brewer</th>
+                    <th class="hidden-xs">ABV</th>
+                    <th class="hidden-xs">IBU</th>
+                    <th class="hidden-xs">Year</th>
+                    <th></th>
+                    </thead>
+                    <tbody>
+                    {% for tap in taps %}
+                        <tr>
+                            <td>{{ tap.getName() }}</td>
+                            <td class="hidden-xs">{{ tap.getAddedByName() }}</td>
+                            <td class="hidden-xs">{{ tap.getAddedDate()|date('Y-m-d') }}</td>
+                            <td class="hidden-xs">{{ tap.getModifiedByName() }}</td>
+                            <td class="hidden-xs">{{ tap.getModifiedDate()|date('Y-m-d') }}</td>
+                            <td>
+                                <a href="{{ path('listBeers', { 'tap_id': tap.getID()}) }}" class="btn btn-sm btn-default">Manage Beers</a>
+                                <a href="{{ path('editTap', { 'tap_id': tap.getID()}) }}" class="btn btn-sm btn-default">Edit Tap</a>
+                                <a href="{{ path('deleteTapConfirm', { 'tap_id': tap.iD}) }}" class="btn btn-sm btn-default">Delete</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock body %}
+
+{% block additional_javascript %}
+<!--Page Related Scripts-->
+<script src="/assets/js/datatable/jquery.dataTables.min.js"></script>
+<script src="/assets/js/datatable/dataTables.tableTools.min.js"></script>
+<script src="/assets/js/datatable/dataTables.bootstrap.min.js"></script>
+<script src="/assets/js/datatable/datatables-init.js"></script>
+<script>
+    InitiateSimpleDataTable.init();
+    //InitiateEditableDataTable.init();
+    //InitiateExpandableDataTable.init();
+    //InitiateSearchableDataTable.init();
+</script>
+{% endblock additional_javascript %}

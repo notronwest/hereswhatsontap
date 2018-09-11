@@ -160,4 +160,22 @@ class User extends BaseORMEntity implements UserInterface, \Serializable
             $this->salt,
             ) = unserialize($serialized);
     }
+
+    /**
+     * @return mixed
+     */
+    public function getContact()
+    {
+        return $this->contact;
+    }
+
+    /**
+     * @param mixed $contact
+     */
+    public function setContact($contact): void
+    {
+        $this->contact = $contact;
+    }
+
+
 }

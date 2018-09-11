@@ -42,6 +42,11 @@ class Glass extends BaseORMEntity
     protected $imgURL;
 
     /**
+     * @ORM\Column(type="integer", name="glass_ounces", nullable=true)
+     */
+    protected $ounces;
+
+    /**
      * @ORM\Column(type="string", name="glass_addedby", length=36)
      */
     protected $addedby;
@@ -128,4 +133,22 @@ class Glass extends BaseORMEntity
     {
         $this->APIID = $APIID;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getOunces()
+    {
+        return $this->ounces;
+    }
+
+    /**
+     * @param mixed $ounces
+     */
+    public function setOunces($ounces): void
+    {
+        $this->ounces = $ounces;
+    }
+
+
 }

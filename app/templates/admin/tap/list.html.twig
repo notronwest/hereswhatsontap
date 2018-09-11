@@ -28,6 +28,7 @@
                 <table class="table table-hover">
                     <thead>
                         <th>Name</th>
+                        <th class="hidden-xs">Number of Taps</th>
                         <th class="hidden-xs">Created By</th>
                         <th class="hidden-xs">Date Created</th>
                         <th class="hidden-xs">Modified By</th>
@@ -38,14 +39,15 @@
                         {% for tap in taps %}
                             <tr>
                                 <td>{{ tap.getName() }}</td>
+                                <td>{{ tap.getNumberOfTaps() }}</td>
                                 <td class="hidden-xs">{{ tap.getAddedByName() }}</td>
                                 <td class="hidden-xs">{{ tap.getAddedDate()|date('Y-m-d') }}</td>
                                 <td class="hidden-xs">{{ tap.getModifiedByName() }}</td>
                                 <td class="hidden-xs">{{ tap.getModifiedDate()|date('Y-m-d') }}</td>
                                 <td>
-                                    <a href="{{ path('listBeers', { 'tap_id': tap.getID()}) }}" class="btn btn-sm btn-default">Manage Beers</a>
-                                    <a href="{{ path('editTap', { 'tap_id': tap.getID()}) }}" class="btn btn-sm btn-default">Edit Tap</a>
-                                    <a href="{{ path('deleteTapConfirm', { 'tap_id': tap.iD}) }}" class="btn btn-sm btn-default">Delete</a>
+                                    <a href="{{ path('listBeers', { 'tap_id': tap.getID()}) }}" class="btn btn-sm btn-blue">Manage Beers</a>
+                                    <a href="{{ path('editTap', { 'tap_id': tap.getID()}) }}" class="btn btn-sm btn-primary">Edit Tap</a>
+                                    <a href="{{ path('deleteTapConfirm', { 'tap_id': tap.iD}) }}" class="btn btn-sm btn-danger">Delete</a>
                                 </td>
                             </tr>
                         {% endfor %}

@@ -26,11 +26,11 @@ class Tap extends BaseController
 
         $Taps = $this->getDoctrine()
             ->getRepository(TapEntity::class)
-            ->findBy(['location' => $this->getCurrentLocation()]);
+            ->findBy(['location' => $this->sessionService->getCurrentLocation()]);
 
         return $this->render("@App/admin/tap/list.html.twig", [
             'taps' => $Taps,
-            'currentLocation' => $this->getCurrentLocation(),
+            'currentLocation' => $this->sessionService->getCurrentLocation(),
         ]);
 
     }
@@ -43,11 +43,11 @@ class Tap extends BaseController
 
         // if we have a valid tap id passed in then try and get the results
 
-        $tap = $this->getTap($tap_id);
+        $tap = $this->getTapByID($tap_id);
 
         return $this->render("@App/admin/tap/edit.html.twig", [
             'tap' => $tap,
-            'location' => $this->getCurrentLocation(),
+            'location' => $this->sessionService->getCurrentLocation(),
         ]);
 
     }
@@ -60,12 +60,14 @@ class Tap extends BaseController
         $entityManager = $this->getDoctrine()->getManager();
 
         // get the location
-        $location = $entityManager->getRepository(\App\Entity\Location::class)
+        $location = $this->getDoctrine()
+            ->getRepository(\App\Entity\Location::class)
             ->find($request->request->get('location_id'));
 
         try {
-            $tap = $this->getTap($request->request->get('tap_id'));
+            $tap = $this->getTapByID($request->request->get('tap_id'));
             $tap->setName($request->request->get('tap_name'));
+            $tap->setNumberOfTaps($request->request->get('tap_numberoftaps'));
             $tap->setLocation($location);
 
             $entityManager->persist($location);
@@ -81,7 +83,7 @@ class Tap extends BaseController
             return $this->redirect($this->generateUrl( 'taps'));
         } else {
             return $this->redirect($this->generateUrl('listBeers', [
-                'tap_id' => $tap.getID(),
+                'tap_id' => $tap->getID(),
             ]));
         }
     }
@@ -92,7 +94,7 @@ class Tap extends BaseController
     public function deleteTapConfirm($tap_id)
     {
 
-        $tap = $this->getTap($tap_id);
+        $tap = $this->getTapByID($tap_id);
 
         // TODO: Need error handling if the tapid isn't found
 
@@ -101,16 +103,19 @@ class Tap extends BaseController
         ]);
     }
 
-    public function getTap($tap_id)
+    public function getTapByID($tap_id)
     {
 
         $tap = $this->getDoctrine()
-            ->getManager()
             ->getRepository(TapEntity::class)
             ->find($tap_id);
 
-        if($tap){
+        if(!$tap){
             return new TapEntity();
+        } else if (is_array($tap) ){
+            return $tap[0];
+        } else {
+            return $tap;
         }
     }
 

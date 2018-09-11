@@ -46,7 +46,7 @@
                                 <td class="hidden-xs">{{ location.getModifiedByName() }}</td>
                                 <td>
                                     <a href="{{ path('editLocation', { 'location_id': location.iD}) }}" class="btn btn-sm btn-default">Edit</a>
-                                    <a href="{{ path('deleteLocationConfirm', { 'location_id': location.iD}) }}" class="btn btn-sm btn-default">Delete</a>
+                                    <a href="{{ path('deleteLocationConfirm', { 'location_id': location.iD}) }}" class="btn btn-sm btn-danger">Delete</a>
                                 </td>
                             </tr>
                         {% endfor %}

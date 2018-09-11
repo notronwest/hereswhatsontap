@@ -24,11 +24,11 @@ class Location extends BaseController
     public function listLocations()
     {
 
-        $customer = $this->getCurrentCustomer();
+        $customer = $this->sessionService->getCurrentCustomer();
 
         $locations = $this->getDoctrine()
             ->getRepository(LocationEntity::class)
-            ->findBy(['customer' => $this->getCurrentCustomer()]);
+            ->findBy(['customer' => $this->sessionService->getCurrentCustomer()]);
 
         return $this->render("@App/admin/location/list.html.twig", [
             'locations' => $locations,
@@ -47,7 +47,7 @@ class Location extends BaseController
 
         return $this->render("@App/admin/location/edit.html.twig", [
             'location'      => $location,
-            'customer_id'   => $this->getCurrentCustomer()->getID(),
+            'customer_id'   => $this->sessionService->getCurrentCustomer()->getID(),
         ]);
 
     }
@@ -125,7 +125,9 @@ class Location extends BaseController
 
         $entityManager = $this->getDoctrine()
             ->getManager();
+        $customer = $location->getCustomer();
         $entityManager->remove($location);
+        $entityManager->persist($customer);
         $entityManager->flush();
 
         // TODO: add message
@@ -139,7 +141,7 @@ class Location extends BaseController
     {
         $locations = $this->getDoctrine()
             ->getRepository(LocationEntity::class)
-            ->findBy(['customer' => $this->getCurrentCustomer()]);
+            ->findBy(['customer' => $this->sessionService->getCurrentCustomer()]);
 
         return $this->render("@App/admin/location/current_location_list.html.twig", [
             'locations' => $locations,

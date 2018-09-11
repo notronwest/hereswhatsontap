@@ -7,6 +7,7 @@ use App\BaseORMEntity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\ManyToOne as ManyToOne;
 use Doctrine\ORM\Mapping\JoinColumn as JoinColumn;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass="App\BaseRepository")
@@ -25,6 +26,11 @@ class Tap extends BaseORMEntity
      * @ORM\Column(type="string", name="tap_name", length=500)
      */
     protected $name;
+
+    /**
+     * @ORM\Column(type="integer", name="tap_numberoftaps")
+     */
+    protected $numberOfTaps;
 
     /**
      * @ORM\Column(type="datetime", name="tap_addeddate")
@@ -68,6 +74,11 @@ class Tap extends BaseORMEntity
     protected $location;
 
     /**
+     * @ORM\OneToMany(targetEntity="CustomerBeer", mappedBy="tap")
+     */
+    protected $beers;
+
+    /**
      * @return mixed
      */
     public function getName()
@@ -82,6 +93,22 @@ class Tap extends BaseORMEntity
     {
         $this->name = $name;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getNumberOfTaps()
+    {
+        return $this->numberOfTaps;
+    }
+
+    /**
+     * @param mixed $numberOfTaps
+     */
+    public function setNumberOfTaps($numberOfTaps): void
+    {
+        $this->numberOfTaps = $numberOfTaps;
+    } 
 
     /**
      * @return mixed
@@ -113,5 +140,27 @@ class Tap extends BaseORMEntity
     public function setLocation(Location $location)
     {
         $this->location = $location;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getBeers()
+    {
+        return $this->beers;
+    }
+
+    /**
+     * @param Beer $beer
+     */
+    public function addBeer($beer)
+    {
+        if( !$this->beers ){
+            $this->beers = new ArrayCollection();
+        }
+
+        if( !$this->beers->contains($beer) ){
+            $this->beers->add($beer);
+        }
     }
 }

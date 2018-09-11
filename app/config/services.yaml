@@ -30,6 +30,29 @@ services:
     App\Service\:
           resource: '../src/Service'
 
+    App\Service\BeerService:
+      arguments:
+        $entityManager:         '@doctrine.orm.entity_manager'
+        $beerDatabaseService:   '@App\Service\BeerDatabaseService'
+        $breweryService:          '@App\Service\BreweryService'
+
+    App\Service\CustomerBeerService:
+          arguments:
+            $entityManager:         '@doctrine.orm.entity_manager'
+            $beerDatabaseService:   '@App\Service\BeerDatabaseService'
+            $breweryService:          '@App\Service\BreweryService'
+
+    App\Service\BreweryService:
+      arguments:
+        $entityManager: '@doctrine.orm.entity_manager'
+        $beerDatabaseService:   '@App\Service\BeerDatabaseService'
+
+    App\Service\SessionService:
+      arguments:
+        $session: '@Symfony\Component\HttpFoundation\Session\SessionInterface'
+        $entityManager: '@doctrine.orm.entity_manager'
+        $tokenStorage: '@Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface'
+
     App\EventListener\BaseORMEventListener:
       tags:
         - { name: doctrine.event_listener, event: prePersist }

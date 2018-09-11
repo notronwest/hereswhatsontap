@@ -22,9 +22,8 @@ use Doctrine\ORM\Mapping\JoinColumn as JoinColumn;
  *            }
  *     )
  */
-class Beer
+class Beer extends BaseORMEntity
 {
-
 
     /**
      * @ORM\Id
@@ -52,6 +51,11 @@ class Beer
      * @ORM\Column(type="boolean", name="beer_organic", nullable=true)
      */
     protected $organic;
+
+    /**
+     * @ORM\Column(type="string", name="beer_images", length=2000, nullable=true)
+     */
+    protected $images;
 
     /**
      * @ORM\Column(type="string", name="beer_year", length=4, nullable=true)
@@ -105,6 +109,12 @@ class Beer
      * @JoinColumn(name="glass_id",referencedColumnName="glass_id")
      */
     protected $glass;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Brewery", inversedBy="beers", cascade={"persist","remove"})
+     * @ORM\JoinColumn(name="brewery_id", referencedColumnName="brewery_id")
+     */
+    protected $brewery;
 
     /**
      * @ORM\Column(type="string", name="beer_apiid", length=255, nullable=true)
@@ -253,6 +263,38 @@ class Beer
     public function setAPIID($APIID): void
     {
         $this->APIID = $APIID;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getImages()
+    {
+        return $this->images;
+    }
+
+    /**
+     * @param mixed $images
+     */
+    public function setImages($images): void
+    {
+        $this->images = $images;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getBrewery()
+    {
+        return $this->brewery;
+    }
+
+    /**
+     * @param mixed $brewery
+     */
+    public function setBrewery($brewery): void
+    {
+        $this->brewery = $brewery;
     }
 
 
